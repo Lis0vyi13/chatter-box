@@ -1,8 +1,6 @@
 import Input from "./Input";
 import { CiSearch } from "react-icons/ci";
 
-type Props = {};
-
 const SearchInput = (props: React.InputHTMLAttributes<HTMLInputElement>) => {
   return (
     <div className="relative">

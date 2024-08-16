@@ -1,13 +1,17 @@
-import Block from "@/ui/Block";
-import ChatList from "./ChatList";
+import { IChat } from "@/types/chat";
+import Title from "@/ui/Title";
 
-const Chat = () => {
+interface IChatProps {
+  data: IChat;
+}
+
+const Chat = ({ data }: IChatProps) => {
   return (
-    <Block>
-      <div className="w-1/4">
-        <ChatList />
+    <header className="flex justify-between items-center">
+      <div>
+        <Title className="text-[30px]">{data.title}</Title>
       </div>
-    </Block>
+    </header>
   );
 };
 

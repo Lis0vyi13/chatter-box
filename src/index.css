@@ -14,9 +14,11 @@ a {
   box-sizing: border-box;
   font-weight: 200;
   font-family: "Poppins", sans-serif;
-  line-height: 14px;
 }
 
+span {
+  line-height: 14px;
+}
 body {
   background-color: #202022;
   background: url("/bg.jpg");
@@ -34,6 +36,7 @@ body {
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
+  border-radius: 4px;
   background: #1a1a1a;
 }
 
@@ -47,6 +50,24 @@ body {
   background-color: #393939;
 }
 
-.onHover {
-  background-color: #c1c1c1;
+.chat-scrollbar::-webkit-scrollbar-track {
+  background: #dadada;
+  visibility: hidden;
 }
+
+.chat-scrollbar:hover::-webkit-scrollbar-track {
+  visibility: visible;
+}
+.chat-scrollbar::-webkit-scrollbar-thumb {
+  background: #7678ed;
+  border-radius: 8px;
+  visibility: hidden;
+  border: 2px solid transparent;
+}
+.chat-scrollbar:hover::-webkit-scrollbar-thumb {
+  visibility: visible;
+}
+.chat-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #4f54d3;
+}
+

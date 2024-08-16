@@ -12,6 +12,11 @@ const routes: RouteType[] = [
     path: "/",
     element: <ChatPage />,
   },
+  {
+    index: true,
+    path: "/chat/:id",
+    element: <ChatPage />,
+  },
 ];
 
 export default routes;

@@ -9,6 +9,7 @@ const Input = (props: InputHTMLAttributes<HTMLInputElement>) => {
   const clearInput = () => setInputValue("");
 
   useEffect(() => {
+    console.log(debouncedValue);
     const handler = setTimeout(() => {
       setDebouncedValue(inputValue);
     }, 500);
@@ -28,7 +29,7 @@ const Input = (props: InputHTMLAttributes<HTMLInputElement>) => {
       />
       {inputValue && (
         <span
-          className="absolute top-1/2 right-2 -translate-y-1/2 cursor-pointer text-[16px] text-dark"
+          className="absolute top-1/2 right-2 -translate-y-1/2 cursor-pointer text-[16px] text-dark rounded-full"
           onClick={clearInput}
         >
           <Icon>

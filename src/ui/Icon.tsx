@@ -1,8 +1,8 @@
 import { ReactNode } from "react";
 
-type IconProps = {
+interface IconProps {
   children: ReactNode;
-};
+}
 
 const Icon = ({ children }: IconProps) => {
   return (

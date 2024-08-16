@@ -22,6 +22,7 @@ export interface ILogoutIcon {
   to: To;
   isActive: boolean;
 }
+
 export type TUnreadMessages = {
   [key: string]: number;
 };

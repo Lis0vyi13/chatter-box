@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 
 import { sidebarIcons, userEditIcons } from "@/constants";
-import { ISidebarIcons, IUserEditIcons, TUnreadMessages } from "@/constants/types";
+import { ISidebarIcons, IUserEditIcons, TUnreadMessages } from "@/types/sidebar";
 import { TSidebarProps } from ".";
 import { FaFolder } from "react-icons/fa";
 
