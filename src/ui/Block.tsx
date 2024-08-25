@@ -1,17 +1,17 @@
 import { ReactNode } from "react";
 
 interface IBlockProps {
-  color?: "white" | "lightBlue";
+  color?: "white" | "lightBlue" | "dark";
   children: ReactNode;
   className?: string;
 }
 
 const Block = ({ color = "white", className, children }: IBlockProps) => {
+  const colorClass = `bg-${color}`;
+
   return (
     <section
-      className={`block w-full h-full rounded-[24px] p-4 ${
-        color == "white" ? "bg-white" : "bg-lightBlue"
-      } ${className}`}
+      className={`block w-full h-full overflow-hidden rounded-[24px] p-4 ${colorClass} ${className}`}
     >
       {children}
     </section>

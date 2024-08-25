@@ -19,10 +19,8 @@ export interface IUserEditIcons extends Omit<ISidebarIcons, "type" | "unreaded" 
 export interface ILogoutIcon {
   Icon: ReactElement;
   title: string;
-  to: To;
+  to?: To;
   isActive: boolean;
 }
 
-export type TUnreadMessages = {
-  [key: string]: number;
-};
+export type TUnreadMessages = Record<string, number>;

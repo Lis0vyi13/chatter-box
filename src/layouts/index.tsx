@@ -1,14 +1,20 @@
-import { Suspense, useRef } from "react";
-import { Outlet } from "react-router-dom";
+import { Suspense, useEffect, useRef } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
+import useLogin from "@/hooks/useLogin";
 
 import Loader from "@/ui/Loader";
 import Sidebar from "@/components/Sidebar";
 
 const Layout = () => {
   const mainRef = useRef(null);
-  // if (!isLoggedIn) {
-  //   return <Navigate to="/login" />;
-  // }
+  const isLogin = useLogin();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLogin) {
+      navigate("/sign-up");
+    }
+  }, []);
 
   return (
     <div className="px-4 py-2 flex h-full">

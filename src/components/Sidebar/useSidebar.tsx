@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from "react";
-
 import { sidebarIcons, userEditIcons } from "@/constants";
 import { ISidebarIcons, IUserEditIcons, TUnreadMessages } from "@/types/sidebar";
 import { TSidebarProps } from ".";
@@ -7,6 +6,7 @@ import { FaFolder } from "react-icons/fa";
 
 const useSidebar = ({ id }: TSidebarProps) => {
   const [icons, setIcons] = useState<ISidebarIcons[] | IUserEditIcons[]>(sidebarIcons);
+
   const fetchUnreadMessages = useCallback(async (): Promise<TUnreadMessages> => {
     console.log(id);
     const unreadMessages: TUnreadMessages = { all: 5, archive: 2 };
@@ -18,20 +18,20 @@ const useSidebar = ({ id }: TSidebarProps) => {
       {
         id: 1,
         Icon: <FaFolder />,
-        title: "All chats",
+        title: "Work",
         type: "all",
         isActive: false,
         unreaded: 0,
-        to: "/",
+        to: "/chats/work",
       },
       {
         id: 2,
         Icon: <FaFolder />,
-        title: "All chats",
-        type: "archive",
+        title: "Friends",
+        type: "all",
         isActive: false,
         unreaded: 0,
-        to: "/",
+        to: "/chats/friends",
       },
     ];
     return extraChats;
@@ -58,6 +58,7 @@ const useSidebar = ({ id }: TSidebarProps) => {
         return allChats;
       });
     };
+
     updateIcons();
   }, [fetchExtraChats, fetchUnreadMessages]);
 

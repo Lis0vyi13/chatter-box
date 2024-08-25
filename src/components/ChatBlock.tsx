@@ -15,7 +15,7 @@ const ChatBlock = () => {
         <ChatList />
       </div>
       {id && (
-        <div className="chat">
+        <div className="chat flex flex-col w-full px-3 flex-1">
           <Chat data={chat1} />
         </div>
       )}

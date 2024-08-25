@@ -1,19 +1,24 @@
-import ChatPage from "@/pages/ChatPage";
 import { ReactNode } from "react";
 
+import ChatPage from "@/pages/ChatPage";
+import LoginPage from "@/pages/Login/LoginPage";
+
 interface RouteType {
-  path: string;
+  path?: string;
   element: ReactNode;
   index?: boolean;
 }
 const routes: RouteType[] = [
+  { path: "*", element: <ChatPage /> },
   {
     index: true,
-    path: "/",
+    element: <LoginPage />,
+  },
+  {
+    path: "/all-chats",
     element: <ChatPage />,
   },
   {
-    index: true,
     path: "/chat/:id",
     element: <ChatPage />,
   },

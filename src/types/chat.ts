@@ -14,6 +14,7 @@ export interface IMessage {
 export interface IChat {
   id: string;
   title: string;
-  members: number;
+  members: string[];
   messages: IMessage[];
+  onlineUsers: string[];
 }

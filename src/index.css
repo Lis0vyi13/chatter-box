@@ -12,21 +12,22 @@ a {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-weight: 200;
+  line-height: 1.2;
   font-family: "Poppins", sans-serif;
 }
 
-span {
-  line-height: 14px;
-}
 body {
   background-color: #202022;
-  background: url("/bg.jpg");
+  /* background: url("/bg.jpg"); */
+  background-color: #0f0f0f;
+  font-weight: normal;
   overflow: hidden;
   background-size: cover;
   height: 100vh;
 }
-
+h1 {
+  font-size: initial;
+}
 #root {
   height: 100%;
 }
@@ -71,3 +72,156 @@ body {
   background-color: #4f54d3;
 }
 
+@-webkit-keyframes ellipsis {
+  0% {
+    content: "";
+  }
+  25% {
+    content: ".";
+  }
+  50% {
+    content: "..";
+  }
+  75% {
+    content: "...";
+  }
+  100% {
+    content: "";
+  }
+}
+
+@keyframes ellipsis {
+  0% {
+    content: "";
+  }
+  25% {
+    content: ".";
+  }
+  50% {
+    content: "..";
+  }
+  75% {
+    content: "...";
+  }
+  100% {
+    content: "";
+  }
+}
+
+.ellipsis::after {
+  content: "";
+  display: inline-block;
+  transition-duration: 500;
+  -webkit-animation: ellipsis 1s infinite;
+  animation: ellipsis 1s infinite;
+}
+
+@-webkit-keyframes ping {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+@keyframes ping {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate-ping {
+  -webkit-animation: ping 1s infinite;
+  animation: ping 1s infinite;
+}
+
+.toaster {
+  font-size: 15px;
+  padding: 10px;
+}
+
+.custom-loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #1a1a1a;
+}
+
+.dot {
+  width: 15px;
+  height: 15px;
+  margin: 3px;
+  border-radius: 50%;
+  background-color: #3498db;
+  -webkit-animation: bounce 1.5s infinite ease-in-out;
+  animation: bounce 1.5s infinite ease-in-out;
+}
+
+.dot:nth-child(2) {
+  -webkit-animation-delay: 0.3s;
+  animation-delay: 0.3s;
+}
+
+.dot:nth-child(3) {
+  -webkit-animation-delay: 0.6s;
+  animation-delay: 0.6s;
+}
+
+@-webkit-keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-30px);
+  }
+  60% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-30px);
+  }
+  60% {
+    transform: translateY(-15px);
+  }
+}

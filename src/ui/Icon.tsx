@@ -2,11 +2,16 @@ import { ReactNode } from "react";
 
 interface IconProps {
   children: ReactNode;
+  className?: string;
 }
 
-const Icon = ({ children }: IconProps) => {
+const Icon = ({ children, className }: IconProps) => {
   return (
-    <div className="relative transition-colors hover:bg-dark hover:bg-opacity-20 p-1 rounded-full">
+    <div
+      className={`relative inline-block cursor-pointer transition-colors hover:bg-dark hover:bg-opacity-20 p-1 rounded-full ${
+        className || ""
+      }`}
+    >
       {children}
     </div>
   );

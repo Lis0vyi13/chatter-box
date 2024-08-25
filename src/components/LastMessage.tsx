@@ -5,8 +5,7 @@ interface ILastMessageProps {
 }
 
 const LastMessage = ({ data }: ILastMessageProps) => {
-  const findUserById = (id: string) => {
-    console.log(id);
+  const findUserById = (_id: string) => {
     return "Test user";
   };
 
@@ -16,11 +15,11 @@ const LastMessage = ({ data }: ILastMessageProps) => {
 
   return (
     <strong
-      className={`last-message text-[12px] line-clamp-1 ${
+      className={`last-message font-normal text-[12px] line-clamp-1 ${
         isAction ? "text-blue" : "text-dark text-opacity-70"
       }`}
     >
-      {!isAction && isSender && <span className="text-blue font-normal">You: </span>}
+      {!isAction && isSender && <span className="text-blue">You: </span>}
       {data.chatType === "group" ? `${sender} ${data.message}` : data.message}
     </strong>
   );

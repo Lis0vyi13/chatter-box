@@ -1,14 +1,14 @@
 import { IoChatbox } from "react-icons/io5";
 import { RiInboxUnarchiveLine } from "react-icons/ri";
-import { FaUser } from "react-icons/fa";
+import { FaGoogle, FaUser, FaFacebookF } from "react-icons/fa";
 import { CgOptions } from "react-icons/cg";
+import { BiLogOut } from "react-icons/bi";
 
 import { ILogoutIcon, ISidebarIcons, IUserEditIcons } from "@/types/sidebar";
-import { BiLogOut } from "react-icons/bi";
-// import { FaFolder } from "react-icons/fa";
-
 import { IUsers } from "@/types/user";
 import { IChat, IMessage, IReaction } from "@/types/chat";
+
+// import { FaFolder } from "react-icons/fa";
 
 export const sidebarIcons: ISidebarIcons[] = [
   {
@@ -18,7 +18,7 @@ export const sidebarIcons: ISidebarIcons[] = [
     type: "all",
     isActive: true,
     unreaded: 0,
-    to: "/",
+    to: "/all-chats",
   },
   {
     id: 1,
@@ -27,7 +27,7 @@ export const sidebarIcons: ISidebarIcons[] = [
     type: "archive",
     isActive: false,
     unreaded: 0,
-    to: "/",
+    to: "/archive",
   },
 ];
 
@@ -36,13 +36,13 @@ export const userEditIcons: IUserEditIcons[] = [
     Icon: <FaUser />,
     title: "Profile",
     isActive: false,
-    to: "/",
+    to: "/profile",
   },
   {
     Icon: <CgOptions />,
     title: "Edit",
     isActive: false,
-    to: "/",
+    to: "/edit",
   },
 ];
 
@@ -50,7 +50,6 @@ export const logOutIcon: ILogoutIcon = {
   Icon: <BiLogOut />,
   title: "Log out",
   isActive: false,
-  to: "/",
 };
 
 // delete
@@ -167,7 +166,7 @@ export const users: IUsers[] = [
   },
 ];
 
-//delete
+// delete
 const reaction1: IReaction = {
   reaction: "like",
   users: ["user2", "user3"],
@@ -210,13 +209,28 @@ const message3: IMessage = {
 export const chat1: IChat = {
   id: "chat1",
   title: "General Chat",
-  members: 10,
+  members: ["user1, user2"],
   messages: [message1, message2],
+  onlineUsers: ["user1"],
 };
 
 export const chat2: IChat = {
   id: "chat2",
   title: "Sports Discussion",
-  members: 7,
+  members: ["user1"],
+  onlineUsers: [],
   messages: [message3],
 };
+
+export const AUTH_SERVICES = [
+  {
+    title: "Google",
+    Icon: <FaGoogle />,
+    className: "hover:bg-[#4287f5]",
+  },
+  {
+    title: "Facebook",
+    Icon: <FaFacebookF />,
+    className: "hover:bg-[#4267B2]",
+  },
+];

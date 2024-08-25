@@ -1,0 +1,110 @@
+import { useState, ChangeEvent, FormEvent, useRef } from "react";
+import { Link } from "react-router-dom";
+import { doSignInWithEmailAndPassword } from "@/firebase/signIn";
+import { toast } from "sonner";
+
+import useActions from "@/hooks/useActions";
+
+import Input from "@/ui/Input";
+import Button from "@/ui/Button";
+
+import { FaArrowRightLong } from "react-icons/fa6";
+
+interface ILoginForm {
+  email: string;
+  password: string;
+}
+
+const LoginForm = () => {
+  const [data, setData] = useState<ILoginForm>({
+    email: "",
+    password: "",
+  });
+  const submitButtonRef = useRef<HTMLButtonElement>(null);
+  const { setUser } = useActions();
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      const user = await doSignInWithEmailAndPassword(data.email, data.password);
+      if (user) {
+        if (user.emailVerified) {
+          setUser({
+            uid: user.uid,
+            email: user.email,
+            displayName: user.displayName,
+            photoURL: user.photoURL,
+            isVerified: user.emailVerified,
+          });
+          toast.success("You have successfully signed in!");
+        } else {
+          toast.error("Account verification is required before you can continue.");
+        }
+      }
+    } catch (error) {
+      toast.error("An unexpected error occurred during sign-in.");
+    }
+  };
+
+  const inputClassName =
+    "bg-dark pl-3 py-3 text-white text-[12px] placeholder:text-[12px] placeholder:text-white placeholder:text-opacity-30 outline outline-gray/45 focus:outline-white/55";
+
+  return (
+    <form
+      onSubmit={handleSubmit}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") {
+          if (submitButtonRef.current) {
+            submitButtonRef.current.focus();
+          }
+        }
+      }}
+      className="mt-4 w-full xs:w-[270px] flex flex-col gap-3 max-w-full"
+    >
+      <Input
+        name="email"
+        type="email"
+        placeholder="Email"
+        required
+        value={data.email}
+        onChange={handleChange}
+        className={`${inputClassName} ${data.email ? "outline-white/55" : ""}`}
+        autoComplete="email"
+      />
+      <Input
+        name="password"
+        type="password"
+        placeholder="Password"
+        minLength={6}
+        required
+        value={data.password}
+        onChange={handleChange}
+        className={`${inputClassName} ${data.password ? "outline-white/55" : ""}`}
+        autoComplete="new-password"
+      />
+      <Button
+        ref={submitButtonRef}
+        className="text-dark flex justify-center hover:bg-gray text-[12px] py-3 items-center gap-1 mt-6 bg-white rounded-2xl"
+      >
+        <span>Log In</span> <FaArrowRightLong className="mt-[2px]" />
+      </Button>
+
+      <div className="flex gap-1 items-center justify-center text-[12px]">
+        <span>Don't have an account?</span>
+        <Link to={"/sign-up"}>
+          <Button className="border text-[12px] bg-dark hover:bg-[#464646] w-fit px-[10px] py-[2px] rounded-2xl border-gray">
+            Sign Up
+          </Button>
+        </Link>
+      </div>
+    </form>
+  );
+};
+
+export default LoginForm;
