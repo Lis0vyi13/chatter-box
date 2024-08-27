@@ -1,24 +1,18 @@
-import { ChangeEvent, FormEvent, useRef, useState } from "react";
-import { FaArrowRightLong } from "react-icons/fa6";
+import { useRef } from "react";
 
-import useActions from "@/hooks/useActions";
+import useCreatePasswordForm from "./useCreatePasswordForm";
+
 import Button from "@/ui/Button";
 import Input from "@/ui/Input";
 
-const CreatePasswordForm = () => {
-  const [password, setPassword] = useState<string>("");
-  const submitButtonRef = useRef<HTMLButtonElement>(null);
-  const { setUser } = useActions();
+import { FaArrowRightLong } from "react-icons/fa6";
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setPassword(value);
-  };
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-  };
+const CreatePasswordForm = () => {
+  const submitButtonRef = useRef<HTMLButtonElement>(null);
+  const { data, handleChange, handleSubmit } = useCreatePasswordForm();
   const inputClassName =
     "bg-dark pl-3 py-3 text-white text-[12px] placeholder:text-[12px] placeholder:text-white placeholder:text-opacity-30 outline outline-gray/45 focus:outline-white/55";
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -32,14 +26,23 @@ const CreatePasswordForm = () => {
       className="mt-4 w-full xs:w-[270px] flex flex-col gap-3 max-w-full"
     >
       <Input
+        name="username"
+        placeholder="Username"
+        required
+        value={data.username}
+        onChange={handleChange}
+        className={`${inputClassName} ${data.username ? "outline-white/55" : ""}`}
+        autoComplete="name"
+      />
+      <Input
         name="password"
         type="password"
         placeholder="Password"
         minLength={6}
         required
-        value={password}
+        value={data.password}
         onChange={handleChange}
-        className={`${inputClassName} ${password ? "outline-white/55" : ""}`}
+        className={`${inputClassName} ${data.password ? "outline-white/55" : ""}`}
         autoComplete="new-password"
       />
       <Button

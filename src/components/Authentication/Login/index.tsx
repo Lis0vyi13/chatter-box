@@ -1,12 +1,8 @@
-import { useEffect } from "react";
 import { motion } from "framer-motion";
-import { useLocation, useNavigate } from "react-router-dom";
-import { isSignInWithEmailLink, signInWithEmailLink } from "firebase/auth";
-import { auth } from "@/firebase/firebaseConfig";
-import { toast } from "sonner";
+import { Link, useLocation } from "react-router-dom";
 
 import useActions from "@/hooks/useActions";
-import useLogin from "@/hooks/useLogin";
+import useLogin from "./useLogin";
 import { signInWithGoogle } from "@/utils/signInWithGoogle";
 
 import Block from "@/ui/Block";
@@ -22,48 +18,13 @@ const variants = {
 };
 
 const Login = () => {
+  useLogin();
+
   const location = useLocation();
   const { setUser } = useActions();
-  const isLogin = useLogin();
-  const navigate = useNavigate();
   const handlers = [() => signInWithGoogle(setUser), () => {}];
 
   const isLoginPage = location.pathname.includes("login");
-
-  useEffect(() => {
-    if (isLogin) {
-      navigate("/all-chats");
-    }
-  }, [isLogin]);
-
-  useEffect(() => {
-    if (isSignInWithEmailLink(auth, window.location.href)) {
-      let email = window.localStorage.getItem("emailForSignIn");
-
-      if (email) {
-        signInWithEmailLink(auth, email, window.location.href)
-          .then((result) => {
-            window.localStorage.removeItem("emailForSignIn");
-
-            const loggedInUser = result.user;
-            console.log(loggedInUser);
-            setUser({
-              uid: loggedInUser.uid,
-              email: loggedInUser.email,
-              displayName: loggedInUser.displayName,
-              photoURL: loggedInUser.photoURL,
-              isVerified: loggedInUser.emailVerified,
-            });
-
-            toast.success("Your account has been successfully activated.");
-          })
-          .catch((error) => {
-            toast.error("There was an error during the activation process.");
-            console.error("Error during sign-in:", error);
-          });
-      }
-    }
-  }, []);
 
   return (
     <Block
@@ -78,9 +39,9 @@ const Login = () => {
         transition={{ duration: 0.8, delay: 0.1 }}
         variants={variants}
       >
-        <div className="logo pt-4">
+        <Link to={"/sign-up"} className="logo pt-4">
           <Logo width={28} height={28} />
-        </div>
+        </Link>
       </motion.div>
 
       <motion.div

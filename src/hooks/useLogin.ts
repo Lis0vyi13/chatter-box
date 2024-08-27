@@ -1,8 +1,8 @@
 import { useAppSelector } from "@/redux/app/hooks";
 
-const useLogin = () => {
-  const isLogin = useAppSelector((store) => store.user.isLogin);
-  return isLogin;
+const useAuth = () => {
+  const isAuth = useAppSelector((store) => store.user.isAuth);
+  return isAuth;
 };
 
-export default useLogin;
+export default useAuth;

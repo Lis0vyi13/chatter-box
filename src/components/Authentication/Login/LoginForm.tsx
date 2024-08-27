@@ -1,56 +1,16 @@
-import { useState, ChangeEvent, FormEvent, useRef } from "react";
+import { useRef } from "react";
 import { Link } from "react-router-dom";
-import { doSignInWithEmailAndPassword } from "@/firebase/signIn";
-import { toast } from "sonner";
 
-import useActions from "@/hooks/useActions";
+import useLoginForm from "./useLoginForm";
 
 import Input from "@/ui/Input";
 import Button from "@/ui/Button";
 
 import { FaArrowRightLong } from "react-icons/fa6";
 
-interface ILoginForm {
-  email: string;
-  password: string;
-}
-
 const LoginForm = () => {
-  const [data, setData] = useState<ILoginForm>({
-    email: "",
-    password: "",
-  });
+  const { data, handleChange, handleSubmit } = useLoginForm();
   const submitButtonRef = useRef<HTMLButtonElement>(null);
-  const { setUser } = useActions();
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setData((prevData) => ({ ...prevData, [name]: value }));
-  };
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    try {
-      const user = await doSignInWithEmailAndPassword(data.email, data.password);
-      if (user) {
-        if (user.emailVerified) {
-          setUser({
-            uid: user.uid,
-            email: user.email,
-            displayName: user.displayName,
-            photoURL: user.photoURL,
-            isVerified: user.emailVerified,
-          });
-          toast.success("You have successfully signed in!");
-        } else {
-          toast.error("Account verification is required before you can continue.");
-        }
-      }
-    } catch (error) {
-      toast.error("An unexpected error occurred during sign-in.");
-    }
-  };
 
   const inputClassName =
     "bg-dark pl-3 py-3 text-white text-[12px] placeholder:text-[12px] placeholder:text-white placeholder:text-opacity-30 outline outline-gray/45 focus:outline-white/55";

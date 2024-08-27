@@ -1,13 +1,14 @@
 import { Suspense, useEffect, useRef } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import useLogin from "@/hooks/useLogin";
+
+import useAuth from "@/hooks/useLogin";
 
 import Loader from "@/ui/Loader";
 import Sidebar from "@/components/Sidebar";
 
 const Layout = () => {
   const mainRef = useRef(null);
-  const isLogin = useLogin();
+  const isLogin = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {

@@ -1,6 +1,9 @@
 import { motion } from "framer-motion";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { doSignInWithPopup } from "@/firebase/googleAuth";
+import { toast } from "sonner";
+
+import useActions from "@/hooks/useActions";
 
 import SignUpForm from "./SignUpForm";
 import Block from "@/ui/Block";
@@ -17,11 +20,27 @@ const variants = {
 const SignUp = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const handlers = [
+  const { setUser } = useActions();
+
+  const servicesHandlers = [
     async () => {
       const user = await doSignInWithPopup();
-      localStorage.setItem("googleUserData", JSON.stringify(user));
-      navigate("/create-password");
+
+      // if not authenticated
+      if (!user?.providerData.some((data) => data.providerId === "password")) {
+        localStorage.setItem("googleUserData", JSON.stringify(user));
+        navigate("/create-password");
+        return;
+      } else {
+        setUser({
+          uid: user.uid,
+          email: user.email,
+          displayName: user.displayName,
+          photoURL: user.photoURL,
+          emailVerified: user.emailVerified,
+        });
+      }
+      toast.success("You have successfully signed in!");
     },
     () => {},
   ];
@@ -40,9 +59,9 @@ const SignUp = () => {
         transition={{ duration: 0.8, delay: 0.1 }}
         variants={variants}
       >
-        <div className="logo pt-4">
+        <Link to={"/sign-up"} className="logo pt-4">
           <Logo width={28} height={28} />
-        </div>
+        </Link>
       </motion.div>
 
       <motion.div
@@ -71,7 +90,7 @@ const SignUp = () => {
         <div className="auth-buttons mt-6 flex gap-3 items-center">
           {AUTH_SERVICES.map(({ title, className, Icon }, i) => (
             <Button
-              onClick={handlers[i]}
+              onClick={servicesHandlers[i]}
               key={title}
               className={`rounded-lg border border-gray ${className}`}
             >

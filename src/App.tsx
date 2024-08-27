@@ -23,13 +23,6 @@ function App() {
         try {
           if (user) {
             if (user.emailVerified) {
-              setUser({
-                uid: user.uid,
-                email: user.email,
-                displayName: user.displayName,
-                photoURL: user.photoURL,
-                isVerified: user.emailVerified,
-              });
             }
           }
         } catch (error) {

@@ -4,12 +4,12 @@ import Title from "@/ui/Title";
 import Icon from "@/ui/Icon";
 import Input from "@/ui/Input";
 
+import { IChat } from "@/types/chat";
+
 import { CiSearch } from "react-icons/ci";
 import { IoCallOutline } from "react-icons/io5";
 import { IoMdMore } from "react-icons/io";
 import { GrAttachment, GrMicrophone, GrSend } from "react-icons/gr";
-
-import { IChat } from "@/types/chat";
 
 interface IChatProps {
   data: IChat;
@@ -24,6 +24,7 @@ const Chat = ({ data }: IChatProps) => {
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
+
   return (
     <>
       <header className="chat-header flex justify-between items-center">

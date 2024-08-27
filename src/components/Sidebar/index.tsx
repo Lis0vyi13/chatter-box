@@ -1,7 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
-import useSidebar from "./useSidebar";
 import { signOut } from "firebase/auth";
 import { auth } from "@/firebase/firebaseConfig";
+
+import useSidebar from "./useSidebar";
 import useActions from "@/hooks/useActions";
 
 import SidebarIcon from "./SidebarIcon";
@@ -17,6 +18,7 @@ const Sidebar = ({ id }: TSidebarProps) => {
   const [chats, settings] = [icons.slice(0, -2), icons.slice(-2)];
   const { logout } = useActions();
   const navigate = useNavigate();
+
   const handleLogout = async () => {
     await signOut(auth);
     logout();

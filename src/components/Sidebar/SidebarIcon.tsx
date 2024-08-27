@@ -13,7 +13,7 @@ const SidebarIcon = ({ Icon, title, to, onClick, isActive }: TSidebarIconProps) 
   return (
     <Link
       onClick={onClick}
-      to={to}
+      to={to || ""}
       className={`icon transition-all w-full bg-transparent text-white hover:bg-white hover:bg-opacity-10 py-3 rounded-xl
        text-center flex gap-1 flex-col justify-center items-center transform-gpu
        ${isActive ? "text-opacity-100" : "text-opacity-30 hover:text-opacity-100"}

@@ -1,55 +1,17 @@
-import { useState, ChangeEvent, FormEvent, useRef } from "react";
+import { useRef } from "react";
 import { Link } from "react-router-dom";
-import doCreateUserWithEmailAndPassword from "@/firebase/auth";
 
 import Input from "@/ui/Input";
 import Button from "@/ui/Button";
 import AuthLoader from "../AuthLoader";
 
 import { FaArrowRightLong } from "react-icons/fa6";
-
-interface ISignUpForm {
-  username: string;
-  email: string;
-  password: string;
-}
+import useSignUpForm from "./useSignUpForm";
 
 const SignUpForm = () => {
-  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
-  const [progressValue, setProgressValue] = useState<number>(0);
-  const [data, setData] = useState<ISignUpForm>({
-    username: "",
-    email: "",
-    password: "",
-  });
+  const { data, isSubmitted, progressValue, handleChange, handleSubmit } = useSignUpForm();
   const submitButtonRef = useRef<HTMLButtonElement>(null);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setData((prevData) => ({ ...prevData, [name]: value }));
-  };
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    try {
-      setIsSubmitted(true);
-      await doCreateUserWithEmailAndPassword(
-        data.email,
-        data.password,
-        data.username,
-        setProgressValue,
-        setIsSubmitted,
-      );
-    } catch (error) {
-      console.error("An error occurred:", error);
-    } finally {
-      setTimeout(() => {
-        setIsSubmitted(false);
-        setProgressValue(0);
-      }, 600);
-    }
-  };
   const inputClassName =
     "bg-dark pl-3 py-3 text-white text-[12px] placeholder:text-[12px] placeholder:text-white placeholder:text-opacity-30 outline outline-gray/45 focus:outline-white/55";
 

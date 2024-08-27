@@ -1,14 +1,14 @@
+import { Link } from "react-router-dom";
+
 import { formatTimestamp } from "@/utils/formatTimestamp";
 
 import Title from "@/ui/Title";
 import Counter from "@/ui/Counter";
 import Avatar from "./Avatar";
-
 import LastMessage from "./LastMessage";
 
 import { IUsers } from "@/types/user";
 import { TiPin } from "react-icons/ti";
-import { Link } from "react-router-dom";
 
 interface IChatListItemProps extends IUsers {
   isActive: boolean;
