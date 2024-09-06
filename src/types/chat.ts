@@ -1,3 +1,5 @@
+import { ILastMessage, TChatType } from "./user";
+
 export interface IReaction {
   reaction: string;
   users: string[];
@@ -17,4 +19,10 @@ export interface IChat {
   members: string[];
   messages: IMessage[];
   onlineUsers: string[];
+  lastMessage: ILastMessage;
+  avatar: string;
+  updatedAt: number;
+  unreadedMessages: number;
+  isPin: boolean;
+  chatType: TChatType;
 }

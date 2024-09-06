@@ -1,7 +1,10 @@
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth } from "./firebaseConfig";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  updateProfile,
+} from "firebase/auth";
+import { actionCodeSettings, auth } from "./firebaseConfig";
 import { toast } from "sonner";
-import { doSendSignInLink } from "./sendSignInLink";
 
 const doCreateUserWithEmailAndPassword = async (
   email: string,
@@ -13,7 +16,6 @@ const doCreateUserWithEmailAndPassword = async (
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
-    console.log(user);
 
     await updateProfile(user, { displayName });
 
@@ -45,7 +47,8 @@ const doCreateUserWithEmailAndPassword = async (
       }, 1400),
     );
 
-    await doSendSignInLink(email);
+    await sendEmailVerification(user, actionCodeSettings);
+    toast.info("Verification email sent. Please check your inbox.");
   } catch (error) {
     setIsSubmitted(false);
     setProgressValue(0);

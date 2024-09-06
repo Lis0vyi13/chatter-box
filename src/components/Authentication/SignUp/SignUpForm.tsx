@@ -25,7 +25,7 @@ const SignUpForm = () => {
           }
         }
       }}
-      className="mt-4 w-full xs:w-[270px] flex flex-col gap-3 max-w-full"
+      className="mt-4 w-full xs:w-[270px] flex flex-col gap-3 px-4 xs:px-0 max-w-full"
     >
       <Input
         name="username"

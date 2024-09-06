@@ -1,5 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { getStorage, ref } from "firebase/storage";
+import { getFirestore } from "firebase/firestore";
+import { getDatabase } from "firebase/database";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -11,7 +14,14 @@ const firebaseConfig = {
   measurementId: "G-MRSMMR1LK8",
 };
 
-// Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth();
-console.log(auth.currentUser);
+export const storage = getStorage();
+export const storageRef = ref(storage);
+export const dbRealtime = getDatabase();
+export const db = getFirestore(app);
+
+export const actionCodeSettings = {
+  url: import.meta.env.VITE_APP_URL + "#/" + "a",
+  handleCodeInApp: true,
+};

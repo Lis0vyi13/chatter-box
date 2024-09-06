@@ -25,7 +25,7 @@ const LoginForm = () => {
           }
         }
       }}
-      className="mt-4 w-full xs:w-[270px] flex flex-col gap-3 max-w-full"
+      className="mt-4 w-full xs:w-[270px] px-4 xs:px-0 flex flex-col gap-3 max-w-full"
     >
       <Input
         name="email"

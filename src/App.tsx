@@ -1,47 +1,18 @@
-import { Suspense, useEffect, useState } from "react";
+import { Suspense } from "react";
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "./firebase/firebaseConfig";
+import { Toaster } from "sonner";
 
-import useActions from "./hooks/useActions";
+import { useApp } from "./hooks/useApp";
 
 import Layout from "./layouts";
 import routes from "./routes";
 import LoginPage from "./pages/Login/LoginPage";
 import CreatePasswordPage from "./pages/CreatePasswordPage";
+
 import Loader from "@/ui/Loader";
 
-import { Toaster } from "sonner";
-
 function App() {
-  const { setUser, logout } = useActions();
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        try {
-          if (user) {
-            if (user.emailVerified) {
-            }
-          }
-        } catch (error) {
-          console.error("Error fetching token:", error);
-        } finally {
-          setLoading(false);
-        }
-      } else {
-        logout();
-        setLoading(false);
-      }
-    });
-
-    return () => unsubscribe();
-  }, [setUser, logout]);
-
-  if (loading) {
-    return <Loader />;
-  }
+  useApp();
   return (
     <Router>
       <Suspense fallback={<Loader />}>

@@ -1,12 +1,19 @@
 import { useCallback, useEffect, useState } from "react";
+import { ref, set } from "firebase/database";
+import { signOut } from "firebase/auth";
+import { auth, dbRealtime } from "@/firebase/firebaseConfig";
 
-import { ISidebarIcons, IUserEditIcons, TUnreadMessages } from "@/types/sidebar";
-import { TSidebarProps } from ".";
+import useActions from "@/hooks/useActions";
 
 import { sidebarIcons, userEditIcons } from "@/constants";
 import { FaFolder } from "react-icons/fa";
 
+import { TSidebarProps } from ".";
+import { ISidebarIcons, IUserEditIcons, TUnreadMessages } from "@/types/sidebar";
+
 const useSidebar = ({ id }: TSidebarProps) => {
+  const { logout } = useActions();
+
   const [icons, setIcons] = useState<ISidebarIcons[] | IUserEditIcons[]>(sidebarIcons);
 
   const fetchUnreadMessages = useCallback(async (): Promise<TUnreadMessages> => {
@@ -24,7 +31,7 @@ const useSidebar = ({ id }: TSidebarProps) => {
         type: "all",
         isActive: false,
         unreaded: 0,
-        to: "/chats/work",
+        to: "/a",
       },
       {
         id: 2,
@@ -33,7 +40,7 @@ const useSidebar = ({ id }: TSidebarProps) => {
         type: "all",
         isActive: false,
         unreaded: 0,
-        to: "/chats/friends",
+        to: "/a",
       },
     ];
     return extraChats;
@@ -73,7 +80,32 @@ const useSidebar = ({ id }: TSidebarProps) => {
     );
   }, []);
 
-  return { icons, handleIconClick };
+  const handleLogout = async () => {
+    logout();
+    signOut(auth);
+
+    const user = auth.currentUser;
+
+    if (user) {
+      const userStatusDatabaseRef = ref(dbRealtime, `/status/${user.uid}`);
+      const currentTimestamp = Date.now();
+
+      const isOfflineForDatabase = {
+        state: "offline",
+        updatedAt: currentTimestamp,
+      };
+
+      try {
+        await set(userStatusDatabaseRef, isOfflineForDatabase);
+      } catch (error) {
+        console.error("Error updating status or signing out:", error);
+      }
+    } else {
+      console.log("No user is signed in.");
+    }
+  };
+
+  return { icons, handleIconClick, handleLogout };
 };
 
 export default useSidebar;

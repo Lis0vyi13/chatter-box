@@ -15,11 +15,11 @@ const routes: RouteType[] = [
     element: <LoginPage />,
   },
   {
-    path: "/all-chats",
+    path: "/a",
     element: <ChatPage />,
   },
   {
-    path: "/chat/:id",
+    path: "/a/:id",
     element: <ChatPage />,
   },
 ];

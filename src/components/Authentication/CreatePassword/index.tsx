@@ -1,9 +1,8 @@
 import { useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useAppSelector } from "@/redux/app/hooks";
 import { motion } from "framer-motion";
 
-import useAuth from "@/hooks/useLogin";
+import useAuth from "@/hooks/useAuth";
 
 import Block from "@/ui/Block";
 import Logo from "@/components/Logo";
@@ -17,15 +16,14 @@ const variants = {
 const CreatePassword = () => {
   const location = useLocation();
   const isLoginPage = location.pathname.includes("login");
-  const isLogin = useAuth();
-  const user = useAppSelector((state) => state.user.user);
+  const isAuth = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isLogin && user?.emailVerified) {
-      navigate("/all-chats");
+    if (isAuth && !localStorage.getItem("googleUserData")) {
+      navigate("/a");
     }
-  }, [isLogin]);
+  }, [isAuth, navigate]);
 
   return (
     <Block
@@ -39,6 +37,7 @@ const CreatePassword = () => {
         animate="visible"
         transition={{ duration: 0.8, delay: 0.1 }}
         variants={variants}
+        className="pt-4"
       >
         <Link to={"/sign-up"} className="logo pt-4">
           <Logo width={28} height={28} />

@@ -1,22 +1,18 @@
+import { UserData } from "@/types/user";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { IUser } from "@/types/user";
-
 interface UserState {
-  isAuth: boolean;
-  user: IUser | null;
+  isAuth: boolean | null;
+  user: UserData | null;
 }
 
-const initialState: UserState = { isAuth: false, user: null };
+const initialState: UserState = { isAuth: null, user: null };
 
 export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    register() {
-      console.log("register");
-    },
-    setUser(state, action: PayloadAction<IUser>) {
+    setUser(state, action: PayloadAction<UserData>) {
       state.isAuth = true;
       state.user = action.payload;
       localStorage.setItem("user", JSON.stringify(action.payload));

@@ -7,10 +7,10 @@ import Counter from "@/ui/Counter";
 import Avatar from "./Avatar";
 import LastMessage from "./LastMessage";
 
-import { IUsers } from "@/types/user";
 import { TiPin } from "react-icons/ti";
+import { IChat } from "@/types/chat";
 
-interface IChatListItemProps extends IUsers {
+interface IChatListItemProps extends IChat {
   isActive: boolean;
   setChat: () => void;
 }
@@ -21,7 +21,7 @@ const ChatListItem = (props: IChatListItemProps) => {
 
   return (
     <Link
-      to={`/chat/${props.id}`}
+      to={`/a/${props.id}`}
       onClick={props.setChat}
       className={`chat-list-item flex transition-colors items-center rounded-xl gap-3 w-full p-2 cursor-pointer ${
         props.isActive ? "bg-lightBlue" : "hover:bg-blue hover:bg-opacity-15"

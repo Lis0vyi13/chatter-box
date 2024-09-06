@@ -2,8 +2,6 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { doSignInWithEmailAndPassword } from "@/firebase/signIn";
 import { toast } from "sonner";
 
-import useActions from "@/hooks/useActions";
-
 interface ILoginForm {
   email: string;
   password: string;
@@ -14,7 +12,6 @@ const useLoginForm = () => {
     email: "",
     password: "",
   });
-  const { setUser } = useActions();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -28,13 +25,6 @@ const useLoginForm = () => {
       const user = await doSignInWithEmailAndPassword(data.email, data.password);
       if (user) {
         if (user.emailVerified) {
-          setUser({
-            uid: user.uid,
-            email: user.email,
-            displayName: user.displayName,
-            photoURL: user.photoURL,
-            emailVerified: user.emailVerified,
-          });
           toast.success("You have successfully signed in!");
         } else {
           toast.error("Account verification is required before you can continue.");

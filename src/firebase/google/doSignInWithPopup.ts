@@ -1,14 +1,12 @@
-import { GoogleAuthProvider, signInWithPopup, User } from "firebase/auth";
-import { auth } from "./firebaseConfig";
+import { AuthProvider, signInWithPopup, User } from "firebase/auth";
+import { auth } from "../firebaseConfig";
 import { toast } from "sonner";
 
-const provider = new GoogleAuthProvider();
-
-export const doSignInWithPopup = async (): Promise<User | null> => {
+export const doSignInWithPopup = async (provider: AuthProvider): Promise<User | null> => {
   try {
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
-    console.log(user);
+
     return user;
   } catch (error) {
     if (error instanceof Error) {

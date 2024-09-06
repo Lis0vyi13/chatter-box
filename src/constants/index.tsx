@@ -1,11 +1,10 @@
 import { IoChatbox } from "react-icons/io5";
 import { RiInboxUnarchiveLine } from "react-icons/ri";
-import { FaGoogle, FaUser, FaFacebookF } from "react-icons/fa";
+import { FaGoogle, FaUser } from "react-icons/fa";
 import { CgOptions } from "react-icons/cg";
 import { BiLogOut } from "react-icons/bi";
 
 import { ILogoutIcon, ISidebarIcons, IUserEditIcons } from "@/types/sidebar";
-import { IUsers } from "@/types/user";
 import { IChat, IMessage, IReaction } from "@/types/chat";
 
 // import { FaFolder } from "react-icons/fa";
@@ -18,7 +17,7 @@ export const sidebarIcons: ISidebarIcons[] = [
     type: "all",
     isActive: true,
     unreaded: 0,
-    to: "/all-chats",
+    to: "/a",
   },
   {
     id: 1,
@@ -50,10 +49,11 @@ export const logOutIcon: ILogoutIcon = {
   Icon: <BiLogOut />,
   title: "Log out",
   isActive: false,
+  to: "/login",
 };
 
 // delete
-export const users: IUsers[] = [
+export const users: IChat[] = [
   {
     id: "user1",
     avatar: "/avatar.jpg",
@@ -63,6 +63,9 @@ export const users: IUsers[] = [
     unreadedMessages: 5,
     isPin: false,
     chatType: "individual",
+    members: [],
+    messages: [],
+    onlineUsers: [],
   },
   {
     id: "user2",
@@ -73,6 +76,9 @@ export const users: IUsers[] = [
     unreadedMessages: 5,
     isPin: true,
     chatType: "individual",
+    members: [],
+    messages: [],
+    onlineUsers: [],
   },
   {
     id: "user3",
@@ -83,86 +89,9 @@ export const users: IUsers[] = [
     unreadedMessages: 2,
     isPin: true,
     chatType: "group",
-  },
-  {
-    id: "user7",
-    avatar: "",
-    lastMessage: { by: "user1", message: "sent you a photo", type: "action" },
-    title: "Bob Smith",
-    updatedAt: 1693000000000,
-    unreadedMessages: 2,
-    isPin: true,
-    chatType: "group",
-  },
-  {
-    id: "user56",
-    avatar: "",
-    lastMessage: { by: "user1", message: "sent you a photo", type: "action" },
-    title: "Bob Smith",
-    updatedAt: 1693000000000,
-    unreadedMessages: 2,
-    isPin: true,
-    chatType: "group",
-  },
-  {
-    id: "user98",
-    avatar: "",
-    lastMessage: { by: "user1", message: "sent you a photo", type: "action" },
-    title: "Bob Smith",
-    updatedAt: 1693000000000,
-    unreadedMessages: 2,
-    isPin: true,
-    chatType: "group",
-  },
-  {
-    id: "user12",
-    avatar: "",
-    lastMessage: { by: "user1", message: "sent you a photo", type: "action" },
-    title: "Bob Smith",
-    updatedAt: 1693000000000,
-    unreadedMessages: 2,
-    isPin: true,
-    chatType: "group",
-  },
-  {
-    id: "user12414",
-    avatar: "",
-    lastMessage: { by: "user1", message: "sent you a photo", type: "action" },
-    title: "Bob Smith",
-    updatedAt: 1693000000000,
-    unreadedMessages: 2,
-    isPin: true,
-    chatType: "group",
-  },
-  {
-    id: "user43",
-    avatar: "",
-    lastMessage: { by: "user1", message: "sent you a photo", type: "action" },
-    title: "Bob Smith",
-    updatedAt: 1693000000000,
-    unreadedMessages: 2,
-    isPin: true,
-    chatType: "group",
-  },
-  {
-    id: "user46",
-    avatar: "",
-    lastMessage: { by: "user1", message: "sent you a photo", type: "action" },
-    title: "Bob Smith",
-    updatedAt: 1693000000000,
-    unreadedMessages: 2,
-    isPin: true,
-    chatType: "group",
-  },
-  {
-    id: "user111",
-    avatar: "",
-    lastMessage: { by: "user1", message: "sent you a photo", type: "action" },
-    title: "Bob Smith",
-    updatedAt: 1693000000000,
-    unreadedMessages: 2,
-    isPin: true,
-    chatType: "group",
+    members: [],
+    messages: [],
+    onlineUsers: [],
   },
 ];
 
@@ -207,19 +136,31 @@ const message3: IMessage = {
 };
 
 export const chat1: IChat = {
-  id: "chat1",
-  title: "General Chat",
-  members: ["user1, user2"],
-  messages: [message1, message2],
-  onlineUsers: ["user1"],
+  id: "user1",
+  avatar: "/avatar.jpg",
+  lastMessage: { by: "user1", message: "Hey! We are reading some text", type: "text" },
+  title: "Alice Johnson",
+  updatedAt: 1723742614000,
+  unreadedMessages: 5,
+  isPin: false,
+  chatType: "individual",
+  members: [],
+  messages: [],
+  onlineUsers: [],
 };
 
 export const chat2: IChat = {
-  id: "chat2",
-  title: "Sports Discussion",
-  members: ["user1"],
+  id: "user1",
+  avatar: "/avatar.jpg",
+  lastMessage: { by: "user1", message: "Hey! We are reading some text", type: "text" },
+  title: "Alice Johnson",
+  updatedAt: 1723742614000,
+  unreadedMessages: 5,
+  isPin: false,
+  chatType: "individual",
+  members: [],
+  messages: [],
   onlineUsers: [],
-  messages: [message3],
 };
 
 export const AUTH_SERVICES = [
@@ -227,10 +168,5 @@ export const AUTH_SERVICES = [
     title: "Google",
     Icon: <FaGoogle />,
     className: "hover:bg-[#4287f5]",
-  },
-  {
-    title: "Facebook",
-    Icon: <FaFacebookF />,
-    className: "hover:bg-[#4267B2]",
   },
 ];
