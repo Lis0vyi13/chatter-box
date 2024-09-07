@@ -1,19 +1,7 @@
-type TMessageType = "text" | "action";
+import { IChat } from "./chat";
+import { IFolder } from "./sidebar";
+
 export type TChatType = "individual" | "group";
-
-interface FavoritesInfo {
-  photos: number;
-  videos: number;
-  files: number;
-  audio: number;
-  links: number;
-  voice: number;
-}
-
-interface Favorites {
-  info: FavoritesInfo;
-  messages: any[];
-}
 
 export interface UserData {
   uid: string;
@@ -22,13 +10,6 @@ export interface UserData {
   createdAt: Date;
   photoUrl: string;
   emailVerified: boolean;
-  favorites: Favorites;
-  chats: any[];
-  folders: any[];
-}
-
-export interface ILastMessage {
-  by: string;
-  message: string;
-  type: TMessageType;
+  chats: IChat[];
+  folders: IFolder[];
 }

@@ -28,8 +28,8 @@ const Layout = () => {
     return (
       <div className="px-4 py-2 flex h-full">
         <section className="wrapper flex-1 bg-dark rounded-[26px] flex">
-          <aside className="flex">
-            <Sidebar id={"id"} />
+          <aside className="flex justify-center min-w-[96px]">
+            <Sidebar />
           </aside>
           <main ref={mainRef} className="flex flex-1 py-2">
             <Suspense fallback={<Loader />}>

@@ -3,15 +3,16 @@ import { useParams } from "react-router-dom";
 
 import SearchInput from "@/ui/SearchInput";
 import ChatListItem from "./ChatListItem";
+import Loader from "@/ui/Loader";
 
-import { users } from "@/constants";
+import { IChat } from "@/types/chat";
 
-const ChatList = () => {
+const ChatList = ({ data }: { data: IChat[] | null }) => {
   const { id } = useParams<{ id: string }>();
   const [activeChat, setActiveChat] = useState<string>("");
 
   useEffect(() => {
-    if (!id) setActiveChat("");
+    setActiveChat(id || "");
   }, [id]);
 
   return (
@@ -19,15 +20,19 @@ const ChatList = () => {
       <SearchInput name="search" placeholder="Search..." />
       <div className="mt-2 transition-all -ml-2 overflow-auto custom-scrollbar chat-scrollbar">
         <ul className="list flex flex-col">
-          {users.map((user) => (
-            <li key={user.id}>
-              <ChatListItem
-                {...user}
-                isActive={user.id === activeChat}
-                setChat={() => setActiveChat(user.id)}
-              />
-            </li>
-          ))}
+          {data ? (
+            data.map((chat) => (
+              <li key={chat.id}>
+                <ChatListItem
+                  {...chat}
+                  isActive={chat.id == activeChat}
+                  setChat={() => setActiveChat(chat.id)}
+                />
+              </li>
+            ))
+          ) : (
+            <Loader isDefault />
+          )}
         </ul>
       </div>
     </section>

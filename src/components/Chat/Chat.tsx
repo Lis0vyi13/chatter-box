@@ -11,33 +11,37 @@ import { IoCallOutline } from "react-icons/io5";
 import { IoMdMore } from "react-icons/io";
 import { GrAttachment, GrMicrophone, GrSend } from "react-icons/gr";
 
-interface IChatProps {
-  data: IChat;
-}
-
-const chatSettings = [<CiSearch />, <IoCallOutline />, <IoMdMore />];
-
-const Chat = ({ data }: IChatProps) => {
+const Chat = ({ data }: { data: IChat }) => {
   const [value, setValue] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     inputRef.current?.focus();
-  }, []);
+  }, [data]);
 
   return (
     <>
-      <header className="chat-header flex justify-between items-center">
+      <header className="chat-header bg-white flex justify-between items-center">
         <div>
           <Title className="text-[28px] leading-8">{data?.title}</Title>
-          <p className="members mt-1 font-[400] text-[13px] text-dark text-opacity-70">
-            {data?.members.length} members, {data?.onlineUsers.length} online
-          </p>
+          {data?.chatType === "individual" && data?.members?.length > 2 && (
+            <p className="members mt-1 font-[400] text-[13px] text-dark text-opacity-70">
+              {data?.members?.length} members, {data?.onlineUsers?.length} online
+            </p>
+          )}
         </div>
         <div className="flex gap-1 leading-8 text-dark text-opacity-70 text-[28px] items-center">
-          {chatSettings.map((setting, i) => (
-            <Icon key={i}>{setting}</Icon>
-          ))}
+          <Icon>
+            <CiSearch />
+          </Icon>
+          {data?.chatType === "individual" && data?.members?.length === 2 && (
+            <Icon>
+              <IoCallOutline />
+            </Icon>
+          )}
+          <Icon>
+            <IoMdMore />
+          </Icon>
         </div>
       </header>
 

@@ -4,9 +4,11 @@ import { useDispatch } from "react-redux";
 
 import { AppDispatch } from "@/redux/app/store";
 import { userActions } from "@/redux/features/user";
+import { chatActions } from "@/redux/features/chat";
 
 const rootActions = {
   ...userActions,
+  ...chatActions,
 };
 
 const useActions = () => {

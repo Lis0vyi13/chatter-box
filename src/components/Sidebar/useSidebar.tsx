@@ -3,73 +3,44 @@ import { ref, set } from "firebase/database";
 import { signOut } from "firebase/auth";
 import { auth, dbRealtime } from "@/firebase/firebaseConfig";
 
+import useUser from "@/hooks/useUser";
 import useActions from "@/hooks/useActions";
 
 import { sidebarIcons, userEditIcons } from "@/constants";
+
+import { IFolder, IUserEditIcons } from "@/types/sidebar";
 import { FaFolder } from "react-icons/fa";
 
-import { TSidebarProps } from ".";
-import { ISidebarIcons, IUserEditIcons, TUnreadMessages } from "@/types/sidebar";
-
-const useSidebar = ({ id }: TSidebarProps) => {
+const useSidebar = () => {
   const { logout } = useActions();
 
-  const [icons, setIcons] = useState<ISidebarIcons[] | IUserEditIcons[]>(sidebarIcons);
-
-  const fetchUnreadMessages = useCallback(async (): Promise<TUnreadMessages> => {
-    console.log(id);
-    const unreadMessages: TUnreadMessages = { all: 5, archive: 2 };
-    return unreadMessages;
-  }, [id]);
-
-  const fetchExtraChats = useCallback(async (): Promise<ISidebarIcons[]> => {
-    const extraChats: ISidebarIcons[] = [
-      {
-        id: 1,
-        Icon: <FaFolder />,
-        title: "Work",
-        type: "all",
-        isActive: false,
-        unreaded: 0,
-        to: "/a",
-      },
-      {
-        id: 2,
-        Icon: <FaFolder />,
-        title: "Friends",
-        type: "all",
-        isActive: false,
-        unreaded: 0,
-        to: "/a",
-      },
-    ];
-    return extraChats;
-  }, []);
+  const [icons, setIcons] = useState<IFolder[] | IUserEditIcons[]>(sidebarIcons);
+  const data = useUser();
 
   useEffect(() => {
     const updateIcons = async () => {
-      const [extraChats, unreadMessages] = await Promise.all([
-        fetchExtraChats(),
-        fetchUnreadMessages(),
-      ]);
+      if (data?.folders) {
+        const folders: IFolder[] = data?.folders;
 
-      setIcons(() => {
-        const addedChats = [sidebarIcons[0], ...extraChats, sidebarIcons[1]].map((icon, i) => ({
-          ...icon,
-          id: i,
-          unreaded: icon.type ? unreadMessages[icon.type] || 0 : 0,
+        const updatedFolders: IFolder[] = folders.map((folder) => ({
+          ...folder,
+          Icon: <FaFolder />,
         }));
-        const userSettingsIcons = userEditIcons.map((icon, i) => ({
-          ...icon,
-          id: i + addedChats.length,
-        }));
-        const allChats = [...addedChats, ...userSettingsIcons];
-        return allChats;
-      });
+
+        setIcons(() => {
+          const addedChats = [sidebarIcons[0], ...updatedFolders, sidebarIcons[1]];
+          const userSettingsIcons = userEditIcons.map((icon, i) => ({
+            ...icon,
+            id: i + addedChats.length,
+          }));
+          const allChats = [...addedChats, ...userSettingsIcons];
+          return allChats;
+        });
+      }
     };
 
     updateIcons();
-  }, [fetchExtraChats, fetchUnreadMessages]);
+  }, [data?.folders, sidebarIcons, userEditIcons]);
 
   const handleIconClick = useCallback((index: number) => {
     setIcons((prevIcons) =>

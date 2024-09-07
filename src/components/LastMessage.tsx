@@ -8,7 +8,6 @@ const LastMessage = ({ data }: ILastMessageProps) => {
   const findUserById = (_id: string) => {
     return "Test user";
   };
-
   const isSender = data.by === data.id;
   const isAction = data.type === "action";
   const sender = findUserById(data.id);
@@ -20,7 +19,9 @@ const LastMessage = ({ data }: ILastMessageProps) => {
       }`}
     >
       {!isAction && isSender && <span className="text-blue">You: </span>}
-      {data.chatType === "group" ? `${sender} ${data.message}` : data.message}
+      {data.chatType === "group"
+        ? `${sender} ${data.message || "No messages found"}`
+        : data.message || "No messages found"}
     </strong>
   );
 };

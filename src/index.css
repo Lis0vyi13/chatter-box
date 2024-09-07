@@ -184,6 +184,16 @@ h1 {
   animation: bounce 1.5s infinite ease-in-out;
 }
 
+.dot.vertical {
+  width: 15px;
+  height: 15px;
+  margin: 3px;
+  border-radius: 50%;
+  background-color: #3498db;
+  -webkit-animation: growShrink 1.5s infinite ease-in-out;
+  animation: growShrink 1.5s infinite ease-in-out;
+}
+
 .dot:nth-child(2) {
   -webkit-animation-delay: 0.3s;
   animation-delay: 0.3s;
@@ -223,5 +233,25 @@ h1 {
   }
   60% {
     transform: translateY(-15px);
+  }
+}
+
+@-webkit-keyframes growShrink {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.35);
+  }
+}
+
+@keyframes growShrink {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.35);
   }
 }

@@ -1,9 +1,9 @@
 import { cloneElement } from "react";
 import { Link } from "react-router-dom";
 
-import { ILogoutIcon, ISidebarIcons, IUserEditIcons } from "@/types/sidebar";
+import { ILogoutIcon, IFolder, IUserEditIcons } from "@/types/sidebar";
 
-type TSidebarIconProps = (ISidebarIcons | IUserEditIcons | ILogoutIcon) & { onClick: () => void };
+type TSidebarIconProps = (IFolder | IUserEditIcons | ILogoutIcon) & { onClick: () => void };
 
 const SidebarIcon = ({ Icon, title, to, onClick, isActive }: TSidebarIconProps) => {
   const iconWithClasses = cloneElement(Icon, {

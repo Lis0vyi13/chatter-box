@@ -1,7 +1,7 @@
 import { ReactElement } from "react";
 import { To } from "react-router-dom";
 
-export interface ISidebarIcons {
+export interface IFolder {
   id: number;
   Icon: ReactElement;
   title: string;
@@ -11,7 +11,7 @@ export interface ISidebarIcons {
   to: To;
 }
 
-export interface IUserEditIcons extends Omit<ISidebarIcons, "type" | "unreaded" | "id"> {
+export interface IUserEditIcons extends Omit<IFolder, "type" | "unreaded" | "id"> {
   id?: number;
   type?: string;
 }

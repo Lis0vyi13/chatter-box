@@ -4,12 +4,12 @@ import { FaGoogle, FaUser } from "react-icons/fa";
 import { CgOptions } from "react-icons/cg";
 import { BiLogOut } from "react-icons/bi";
 
-import { ILogoutIcon, ISidebarIcons, IUserEditIcons } from "@/types/sidebar";
-import { IChat, IMessage, IReaction } from "@/types/chat";
+import { ILogoutIcon, IFolder, IUserEditIcons } from "@/types/sidebar";
+import { IMessage, IReaction } from "@/types/chat";
 
 // import { FaFolder } from "react-icons/fa";
 
-export const sidebarIcons: ISidebarIcons[] = [
+export const sidebarIcons: IFolder[] = [
   {
     id: 0,
     Icon: <IoChatbox />,
@@ -53,47 +53,6 @@ export const logOutIcon: ILogoutIcon = {
 };
 
 // delete
-export const users: IChat[] = [
-  {
-    id: "user1",
-    avatar: "/avatar.jpg",
-    lastMessage: { by: "user1", message: "Hey! We are reading some text", type: "text" },
-    title: "Alice Johnson",
-    updatedAt: 1723742614000,
-    unreadedMessages: 5,
-    isPin: false,
-    chatType: "individual",
-    members: [],
-    messages: [],
-    onlineUsers: [],
-  },
-  {
-    id: "user2",
-    avatar: "/avatar.jpg",
-    lastMessage: { by: "user1", message: "Voice message", type: "action" },
-    title: "Alice Johnson",
-    updatedAt: 1692000000000,
-    unreadedMessages: 5,
-    isPin: true,
-    chatType: "individual",
-    members: [],
-    messages: [],
-    onlineUsers: [],
-  },
-  {
-    id: "user3",
-    avatar: "",
-    lastMessage: { by: "user1", message: "Hey! We are reading some text", type: "text" },
-    title: "Bob Smith",
-    updatedAt: Date.now(),
-    unreadedMessages: 2,
-    isPin: true,
-    chatType: "group",
-    members: [],
-    messages: [],
-    onlineUsers: [],
-  },
-];
 
 // delete
 const reaction1: IReaction = {
@@ -135,33 +94,33 @@ const message3: IMessage = {
   reactions: [reaction3],
 };
 
-export const chat1: IChat = {
-  id: "user1",
-  avatar: "/avatar.jpg",
-  lastMessage: { by: "user1", message: "Hey! We are reading some text", type: "text" },
-  title: "Alice Johnson",
-  updatedAt: 1723742614000,
-  unreadedMessages: 5,
-  isPin: false,
-  chatType: "individual",
-  members: [],
-  messages: [],
-  onlineUsers: [],
-};
+// export const chat1: IChat = {
+//   id: "user1",
+//   avatar: "/avatar.jpg",
+//   lastMessage: { by: "user1", message: "Hey! We are reading some text", type: "text" },
+//   title: "Alice Johnson",
+//   updatedAt: 1723742614000,
+//   unreadedMessages: 5,
+//   isPin: false,
+//   chatType: "individual",
+//   members: [],
+//   messages: [],
+//   onlineUsers: [],
+// };
 
-export const chat2: IChat = {
-  id: "user1",
-  avatar: "/avatar.jpg",
-  lastMessage: { by: "user1", message: "Hey! We are reading some text", type: "text" },
-  title: "Alice Johnson",
-  updatedAt: 1723742614000,
-  unreadedMessages: 5,
-  isPin: false,
-  chatType: "individual",
-  members: [],
-  messages: [],
-  onlineUsers: [],
-};
+// export const chat2: IChat = {
+//   id: "user1",
+//   avatar: "/avatar.jpg",
+//   lastMessage: { by: "user1", message: "Hey! We are reading some text", type: "text" },
+//   title: "Alice Johnson",
+//   updatedAt: 1723742614000,
+//   unreadedMessages: 5,
+//   isPin: false,
+//   chatType: "individual",
+//   members: [],
+//   messages: [],
+//   onlineUsers: [],
+// };
 
 export const AUTH_SERVICES = [
   {
