@@ -1,38 +1,44 @@
-import { InputHTMLAttributes, useState, useEffect, forwardRef } from "react";
-
+import { InputHTMLAttributes, useEffect, forwardRef, useState } from "react";
 import Icon from "./Icon";
-
 import { IoCloseSharp } from "react-icons/io5";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;
+  value: string;
+  setValue: React.Dispatch<React.SetStateAction<string>>;
+  setDebouncedValue?: React.Dispatch<React.SetStateAction<string>>;
   noDeleteIcon?: boolean;
   type?: "text" | "email" | "password" | "number" | "search" | "tel" | "url";
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, noDeleteIcon, type = "text", ...props }, ref) => {
-    const [inputValue, setInputValue] = useState<string>("");
-    const [_debouncedValue, setDebouncedValue] = useState<string>(inputValue);
+  (
+    { className, value, setValue, setDebouncedValue, noDeleteIcon, type = "text", ...props },
+    ref,
+  ) => {
     const [passwordHidden, setPasswordHidden] = useState<boolean>(true);
 
     useEffect(() => {
-      const handler = setTimeout(() => {
-        setDebouncedValue(inputValue);
-      }, 500);
-
-      return () => {
-        clearTimeout(handler);
-      };
-    }, [inputValue]);
+      if (setDebouncedValue) {
+        const handler = setTimeout(() => {
+          setDebouncedValue(value);
+        }, 300);
+        return () => {
+          clearTimeout(handler);
+        };
+      }
+    }, [value]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setInputValue(e.target.value);
+      setValue(e.target.value);
     };
 
     const handleClearInput = () => {
-      setInputValue("");
+      setValue("");
+      if (setDebouncedValue) {
+        setDebouncedValue("");
+      }
     };
 
     const togglePasswordVisibility = () => {
@@ -46,12 +52,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         <input
           ref={ref}
           type={inputType}
-          value={inputValue}
+          value={value}
           onChange={handleInputChange}
           className={`relative text-dark placeholder:text-dark pr-4 py-2 font-[400] rounded-xl outline-none w-full ${className}`}
           {...props}
         />
-        {inputValue && !noDeleteIcon && (
+        {value && !noDeleteIcon && (
           <button
             type="button"
             onClick={handleClearInput}

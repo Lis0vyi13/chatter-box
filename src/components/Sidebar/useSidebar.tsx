@@ -3,27 +3,25 @@ import { ref, set } from "firebase/database";
 import { signOut } from "firebase/auth";
 import { auth, dbRealtime } from "@/firebase/firebaseConfig";
 
-import useUser from "@/hooks/useUser";
 import useActions from "@/hooks/useActions";
 
 import { sidebarIcons, userEditIcons } from "@/constants";
 
 import { IFolder, IUserEditIcons } from "@/types/sidebar";
 import { FaFolder } from "react-icons/fa";
+import useFolders from "@/hooks/useFolders";
 
 const useSidebar = () => {
   const { logout } = useActions();
-
-  const [icons, setIcons] = useState<IFolder[] | IUserEditIcons[]>(sidebarIcons);
-  const data = useUser();
+  const [icons, setIcons] = useState<(IFolder | IUserEditIcons)[]>(sidebarIcons);
+  const folders = useFolders();
 
   useEffect(() => {
     const updateIcons = async () => {
-      if (data?.folders) {
-        const folders: IFolder[] = data?.folders;
-
+      if (folders) {
         const updatedFolders: IFolder[] = folders.map((folder) => ({
           ...folder,
+          to: "/" + folder.id,
           Icon: <FaFolder />,
         }));
 
@@ -31,7 +29,7 @@ const useSidebar = () => {
           const addedChats = [sidebarIcons[0], ...updatedFolders, sidebarIcons[1]];
           const userSettingsIcons = userEditIcons.map((icon, i) => ({
             ...icon,
-            id: i + addedChats.length,
+            id: (i + addedChats.length).toString(),
           }));
           const allChats = [...addedChats, ...userSettingsIcons];
           return allChats;
@@ -40,14 +38,15 @@ const useSidebar = () => {
     };
 
     updateIcons();
-  }, [data?.folders, sidebarIcons, userEditIcons]);
+  }, [folders]);
 
-  const handleIconClick = useCallback((index: number) => {
+  const handleIconClick = useCallback((index: string) => {
     setIcons((prevIcons) =>
-      prevIcons.map((icon) => ({
-        ...icon,
-        isActive: icon.id === index,
-      })),
+      prevIcons.map((icon) =>
+        icon.id === index && !icon.isActive
+          ? { ...icon, isActive: true }
+          : { ...icon, isActive: false },
+      ),
     );
   }, []);
 

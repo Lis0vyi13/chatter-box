@@ -2,17 +2,17 @@ import { ReactElement } from "react";
 import { To } from "react-router-dom";
 
 export interface IFolder {
-  id: number;
+  id: string;
   Icon: ReactElement;
   title: string;
   isActive: boolean;
-  type: string;
+  type: "all" | "archive";
   unreaded: number;
   to: To;
 }
 
 export interface IUserEditIcons extends Omit<IFolder, "type" | "unreaded" | "id"> {
-  id?: number;
+  id?: string;
   type?: string;
 }
 

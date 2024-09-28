@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "@/firebase/firebaseConfig";
 
-import useChats from "@/hooks/useChats";
+import useUser from "@/hooks/useUser";
 
 import Block from "@/ui/Block";
 import ChatList from "./ChatList";
@@ -10,7 +12,28 @@ import { IChat } from "@/types/chat";
 
 const ChatBlock = ({ id }: { id?: string }) => {
   const [currentChat, setCurrentChat] = useState<IChat | null>(null);
-  const chats = useChats();
+  const user = useUser();
+  const [chats, setChats] = useState<IChat[] | null>(null);
+
+  useEffect(() => {
+    if (user?.uid) {
+      const chatsRef = doc(db, "chats", user.uid);
+
+      const unsubscribe = onSnapshot(chatsRef, (doc) => {
+        if (doc.exists()) {
+          const data = doc.data() as { chats: IChat[] };
+          const sortedChats = data.chats.sort(
+            (a: IChat, b: IChat) => (b.updatedAt || 0) - (a.updatedAt || 0),
+          );
+          setChats(sortedChats);
+        } else {
+          setChats([]);
+        }
+      });
+
+      return () => unsubscribe();
+    }
+  }, [user?.uid]);
 
   useEffect(() => {
     const chat = chats?.find((chat) => chat.id == id);

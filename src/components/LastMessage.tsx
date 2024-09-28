@@ -1,4 +1,4 @@
-import { ILastMessage, TChatType } from "@/types/user";
+import { ILastMessage, TChatType } from "@/types/chat";
 
 interface ILastMessageProps {
   data: ILastMessage & { id: string; chatType: TChatType };

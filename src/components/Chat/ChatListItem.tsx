@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Link } from "react-router-dom";
 
 import { formatTimestamp } from "@/utils/formatTimestamp";
@@ -15,7 +16,7 @@ interface IChatListItemProps extends IChat {
   setChat: () => void;
 }
 
-const ChatListItem = (props: IChatListItemProps) => {
+const ChatListItem = memo((props: IChatListItemProps) => {
   const { lastMessage, chatType, unreadedMessages, updatedAt, isPin, id, title, avatar } = props;
   const duration = formatTimestamp(updatedAt);
 
@@ -34,7 +35,9 @@ const ChatListItem = (props: IChatListItemProps) => {
       </div>
       <div className="flex gap-1 justify-end">
         <div className="flex flex-col pt-[1px] gap-1 items-end">
-          <strong className="text-[12px] mt-[6px] font-normal opacity-80">{duration}</strong>
+          {id && (
+            <strong className="text-[12px] mt-[6px] font-normal opacity-80">{duration}</strong>
+          )}
 
           <div className="flex justify-center items-center gap-1 pt-[1px]">
             {unreadedMessages > 0 && <Counter>{unreadedMessages}</Counter>}
@@ -44,6 +47,6 @@ const ChatListItem = (props: IChatListItemProps) => {
       </div>
     </Link>
   );
-};
+});
 
 export default ChatListItem;

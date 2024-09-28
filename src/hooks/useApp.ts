@@ -1,110 +1,41 @@
 import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc, getFirestore, setDoc, updateDoc } from "firebase/firestore";
-import { auth, db } from "@/firebase/firebaseConfig";
-import { v4 as uuidv4 } from "uuid";
+import { auth } from "@/firebase/firebaseConfig";
 
 import { monitorUserConnection } from "@/utils/monitorUserConnection";
 import useActions from "./useActions";
-
-import { UserData } from "@/types/user";
-import { IChat } from "@/types/chat";
-import favoritesLogo from "/favorites.png";
-
-const createChat = async (chatData: IChat, uid: string) => {
-  try {
-    const chatDocRef = doc(db, "chats", uid);
-    const chatDoc = await getDoc(chatDocRef);
-
-    if (!chatDoc.exists()) {
-      await setDoc(chatDocRef, {
-        chats: [chatData],
-      });
-    }
-
-    return chatDoc.data();
-  } catch (e) {
-    console.error("Error creating chat: ", e);
-  }
-};
+import {
+  createFavoritesChat,
+  createOrUpdateUser,
+  createTestFolder,
+  getSortedChats,
+} from "@/services/firebase";
+import { generateFavoritesChatTemplate } from "@/templates";
 
 export const useApp = () => {
-  const db = getFirestore();
-  const { setUser, setChats } = useActions();
+  const { setUser, setChats, setFolders } = useActions();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        monitorUserConnection();
+      if (!user || !user.emailVerified) return;
 
-        if (user.emailVerified) {
-          try {
-            const userDocRef = doc(db, "users", user.uid);
-            const userDoc = await getDoc(userDocRef);
+      monitorUserConnection();
 
-            if (!userDoc.exists()) {
-              await setDoc(userDocRef, {
-                uid: user.uid,
-                email: user.email,
-                displayName: user.displayName || "Anonymous",
-                createdAt: Date.now(),
-                photoUrl: "",
-                emailVerified: user.emailVerified,
-                folders: [
-                  {
-                    id: uuidv4(),
-                    title: "Work",
-                    type: "all",
-                    isActive: false,
-                    unreaded: 3,
-                    to: "/a",
-                  },
-                ],
-              });
-            } else {
-              await updateDoc(userDocRef, {
-                email: user.email,
-                displayName: user.displayName || "Anonymous",
-                photoUrl: "",
-                emailVerified: user.emailVerified,
-              });
+      try {
+        const userData = await createOrUpdateUser(user);
+        const favoritesChat = generateFavoritesChatTemplate(user.uid);
+        await createFavoritesChat(favoritesChat, user.uid);
+        const foldersData = await createTestFolder(user);
+        const chats = await getSortedChats(user.uid);
 
-              const favoritesChat: IChat = {
-                id: uuidv4(),
-                title: "Favorites",
-                members: [user.uid],
-                messages: [],
-                onlineUsers: [],
-                lastMessage: null,
-                avatar: favoritesLogo,
-                updatedAt: Date.now(),
-                unreadedMessages: 0,
-                isPin: false,
-                chatType: "individual",
-                info: {
-                  photos: 0,
-                  videos: 0,
-                  files: 0,
-                  audio: 0,
-                  links: 0,
-                  voice: 0,
-                },
-              };
-              const chatData = await createChat(favoritesChat, user.uid);
-
-              const data = userDoc.data() as UserData;
-              setUser(data);
-              if (chatData) setChats(chatData.chats);
-            }
-          } catch (error) {
-            console.error("Error adding or updating user data in Firestore:", error);
-          }
-        } else {
-          console.log("Email not verified yet");
-        }
+        setUser(userData);
+        if (foldersData) setFolders(foldersData.data);
+        if (chats) setChats(chats);
+      } catch (error) {
+        console.error("Error handling user authentication:", error);
       }
     });
 
     return () => unsubscribe();
-  }, [auth, db, setUser]);
+  }, [setUser, setChats]);
 };

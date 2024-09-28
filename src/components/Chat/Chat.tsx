@@ -4,12 +4,29 @@ import Title from "@/ui/Title";
 import Icon from "@/ui/Icon";
 import Input from "@/ui/Input";
 
-import { IChat } from "@/types/chat";
+import { IChat, IMessage } from "@/types/chat";
 
 import { CiSearch } from "react-icons/ci";
 import { IoCallOutline } from "react-icons/io5";
 import { IoMdMore } from "react-icons/io";
 import { GrAttachment, GrMicrophone, GrSend } from "react-icons/gr";
+import { FaRegSmile } from "react-icons/fa";
+import Message from "./Message";
+
+const messages: IMessage[] = [
+  {
+    id: "1",
+    uid: "WFMTgOXtOKgc3r9Vcb2u3KdUFPJ3",
+    text: "Jaden, my congratulations! I will be glad to work with you on a new project 😉",
+    reactions: [],
+  },
+  {
+    id: "2",
+    uid: "4",
+    text: "Jaden, my congratulations! I will be glad to work with you on a new project 😉",
+    reactions: [],
+  },
+];
 
 const Chat = ({ data }: { data: IChat }) => {
   const [value, setValue] = useState<string>("");
@@ -21,7 +38,7 @@ const Chat = ({ data }: { data: IChat }) => {
 
   return (
     <>
-      <header className="chat-header bg-white flex justify-between items-center">
+      <header className="chat-header pb-4 bg-white flex justify-between items-center">
         <div>
           <Title className="text-[28px] leading-8">{data?.title}</Title>
           {data?.chatType === "individual" && data?.members?.length > 2 && (
@@ -45,7 +62,11 @@ const Chat = ({ data }: { data: IChat }) => {
         </div>
       </header>
 
-      <main className="chat-main flex-1"></main>
+      <main className="chat-main overflow-y-auto overflow-x-hidden flex flex-col gap-3 flex-1">
+        {messages.map((m) => (
+          <Message key={m.id} data={m} />
+        ))}
+      </main>
       <footer className="chat-footer">
         <div className="relative">
           <Input
@@ -63,6 +84,9 @@ const Chat = ({ data }: { data: IChat }) => {
             </Icon>
           </div>
           <div className="absolute flex items-center gap-1 text-[20px] right-2 top-1/2 -translate-y-1/2 leading-[0.7] text-dark text-opacity-70">
+            <Icon>
+              <FaRegSmile />
+            </Icon>
             <Icon>
               <GrMicrophone />
             </Icon>

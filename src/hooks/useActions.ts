@@ -5,10 +5,12 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/app/store";
 import { userActions } from "@/redux/features/user";
 import { chatActions } from "@/redux/features/chat";
+import { foldersActions } from "@/redux/features/folders";
 
 const rootActions = {
   ...userActions,
   ...chatActions,
+  ...foldersActions,
 };
 
 const useActions = () => {

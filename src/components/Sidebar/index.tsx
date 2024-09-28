@@ -11,7 +11,7 @@ import Loader from "@/ui/Loader";
 const Sidebar = () => {
   const { icons, handleIconClick, handleLogout } = useSidebar();
   const [chats, settings] = [icons.slice(0, -2), icons.slice(-2)];
-  const data = useUser();
+  const folders = useUser();
 
   return (
     <section className="flex overflow-auto custom-scrollbar px-2 flex-col justify-between gap-4 items-center py-4">
@@ -19,12 +19,12 @@ const Sidebar = () => {
         <img width={27} height={27} src="/logo.svg" alt="Logo" />
       </Link>
       <div className="flex flex-col gap-3 justify-center">
-        {data?.folders ? (
+        {folders ? (
           <>
             <div className="sidebar-icons flex gap-1 flex-col justify-center pt-2">
               {chats?.map((iconData, i) => (
                 <SidebarIcon
-                  onClick={() => handleIconClick(iconData.id || 0)}
+                  onClick={() => handleIconClick(iconData.id || "0")}
                   key={i}
                   {...iconData}
                 />
@@ -34,7 +34,7 @@ const Sidebar = () => {
             <div className="sidebar-icons flex gap-1 flex-col justify-center">
               {settings?.map((iconData, i) => (
                 <SidebarIcon
-                  onClick={() => handleIconClick(iconData.id || 0)}
+                  onClick={() => handleIconClick(iconData.id || "0")}
                   key={i}
                   {...iconData}
                 />
@@ -45,7 +45,7 @@ const Sidebar = () => {
           <Loader className="flex-col gap-1" isVertical isDefault />
         )}
       </div>
-      <div className="w-full">
+      <div className={`w-full ${folders ? "" : "opacity-0 pointer-events-none"}`}>
         <SidebarIcon onClick={handleLogout} {...logOutIcon} />
       </div>
     </section>

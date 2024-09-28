@@ -1,11 +1,12 @@
-import { TChatType } from "./user";
+import { IFolder } from "./sidebar";
 
 type TMessageType = "text" | "action";
+export type TChatType = "individual" | "group" | "none";
 
 export interface ILastMessage {
-  by: string;
-  message: string;
-  type: TMessageType;
+  by?: string | undefined;
+  message?: string;
+  type?: TMessageType;
 }
 
 export interface IReaction {
@@ -15,8 +16,7 @@ export interface IReaction {
 
 export interface IMessage {
   id: string;
-  user: string;
-  avatar: string;
+  uid: string;
   text: string;
   reactions: IReaction[];
 }
@@ -43,4 +43,5 @@ export interface IChat {
   isPin: boolean;
   chatType: TChatType;
   info: IChatInfo;
+  folders: IFolder[];
 }
