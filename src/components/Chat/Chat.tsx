@@ -22,7 +22,7 @@ const messages: IMessage[] = [
   },
   {
     id: "2",
-    uid: "4",
+    uid: "2hzT8uBZHXQC8sQssNvZnglb7L53",
     text: "Jaden, my congratulations! I will be glad to work with you on a new project 😉",
     reactions: [],
   },
@@ -73,7 +73,7 @@ const Chat = ({ data }: { data: IChat }) => {
             ref={inputRef}
             noDeleteIcon
             value={value}
-            onChange={(e) => setValue(e.target.value)}
+            setValue={setValue}
             className="bg-opacity-70 bg-lightBlue pl-9 text-dark placeholder:text-opacity-70 text-xs placeholder:text-xs py-4"
             name="message"
             placeholder="Your message"

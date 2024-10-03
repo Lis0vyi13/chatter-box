@@ -5,7 +5,6 @@ import { CgOptions } from "react-icons/cg";
 import { BiLogOut } from "react-icons/bi";
 
 import { ILogoutIcon, IFolder, IUserEditIcons } from "@/types/sidebar";
-import { IMessage, IReaction } from "@/types/chat";
 
 // import { FaFolder } from "react-icons/fa";
 

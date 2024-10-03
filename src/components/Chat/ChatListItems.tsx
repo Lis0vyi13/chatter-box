@@ -1,0 +1,67 @@
+import { Droppable, Draggable } from "@hello-pangea/dnd";
+
+import ChatListItem from "./ChatListItem";
+import Loader from "@/ui/Loader";
+
+import { IChat } from "@/types/chat";
+import { ChatListItemMenu } from "@/ui/Menus/ChatListItemMenu";
+
+interface ChatListItemsProps {
+  chats: IChat[] | null;
+  activeChat: string | undefined;
+  setActiveChat: (id: string) => void;
+  createNewChat: (chatData: IChat) => void;
+}
+
+const ChatListItems = ({ chats, activeChat, setActiveChat, createNewChat }: ChatListItemsProps) => (
+  <Droppable droppableId="chatListDroppable">
+    {(provided) => (
+      <ul className="list flex flex-col" ref={provided.innerRef} {...provided.droppableProps}>
+        {chats ? (
+          chats.map((chat, index) => (
+            <ChatListItemMenu isPin={chat.isPin} key={chat.id}>
+              {chat.isPin ? (
+                <Draggable key={chat.id} draggableId={chat.id} index={index}>
+                  {(provided) => (
+                    <li
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                    >
+                      <ChatListItem
+                        {...chat}
+                        isActive={chat.id == activeChat}
+                        setChat={
+                          chat.chatType === "none"
+                            ? () => createNewChat(chat)
+                            : () => setActiveChat(chat.id)
+                        }
+                      />
+                    </li>
+                  )}
+                </Draggable>
+              ) : (
+                <li key={chat.id}>
+                  <ChatListItem
+                    {...chat}
+                    isActive={chat.id == activeChat}
+                    setChat={
+                      chat.chatType === "none"
+                        ? () => createNewChat(chat)
+                        : () => setActiveChat(chat.id)
+                    }
+                  />
+                </li>
+              )}
+            </ChatListItemMenu>
+          ))
+        ) : (
+          <Loader isDefault />
+        )}
+        {provided.placeholder}
+      </ul>
+    )}
+  </Droppable>
+);
+
+export default ChatListItems;

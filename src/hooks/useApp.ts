@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "@/firebase/firebaseConfig";
 
 import { monitorUserConnection } from "@/utils/monitorUserConnection";
@@ -16,16 +16,19 @@ export const useApp = () => {
   const { setUser, setChats, setFolders } = useActions();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    const handleUserAuth = async (user: User | null) => {
       if (!user || !user.emailVerified) return;
 
       monitorUserConnection();
 
       try {
         const userData = await createOrUpdateUser(user);
+
         const favoritesChat = generateFavoritesChatTemplate(user.uid);
         await createFavoritesChat(favoritesChat, user.uid);
+
         const foldersData = await createTestFolder(user);
+
         const chats = await getSortedChats(user.uid);
 
         setUser(userData);
@@ -34,8 +37,10 @@ export const useApp = () => {
       } catch (error) {
         console.error("Error handling user authentication:", error);
       }
-    });
+    };
+
+    const unsubscribe = onAuthStateChanged(auth, handleUserAuth);
 
     return () => unsubscribe();
-  }, [setUser, setChats]);
+  }, [setUser, setChats, setFolders]);
 };

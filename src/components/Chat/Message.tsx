@@ -37,6 +37,7 @@ const Message = ({ data }: IMessageProps) => {
     >
       <Avatar
         avatar={sender?.photoUrl}
+        title={sender?.displayName}
         className="min-h-[48px] max-h-[48px] max-w-[48px] min-w-[48px] self-end"
       />
 

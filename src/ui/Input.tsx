@@ -54,7 +54,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           type={inputType}
           value={value}
           onChange={handleInputChange}
-          className={`relative text-dark placeholder:text-dark pr-4 py-2 font-[400] rounded-xl outline-none w-full ${className}`}
+          className={`relative focus:shadow-lg text-dark placeholder:text-dark placeholder:text-opacity-60 pr-4 py-2 font-[400] rounded-xl outline-none w-full transition duration-300 ${className}`}
           {...props}
         />
         {value && !noDeleteIcon && (

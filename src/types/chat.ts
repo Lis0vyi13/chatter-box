@@ -44,4 +44,5 @@ export interface IChat {
   chatType: TChatType;
   info: IChatInfo;
   folders: IFolder[];
+  order?: number;
 }

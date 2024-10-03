@@ -22,9 +22,12 @@ const ChatBlock = ({ id }: { id?: string }) => {
       const unsubscribe = onSnapshot(chatsRef, (doc) => {
         if (doc.exists()) {
           const data = doc.data() as { chats: IChat[] };
-          const sortedChats = data.chats.sort(
-            (a: IChat, b: IChat) => (b.updatedAt || 0) - (a.updatedAt || 0),
-          );
+
+          const pinnedChats = data.chats.filter((chat: IChat) => chat.isPin);
+          const regularChats = data.chats.filter((chat: IChat) => !chat.isPin);
+
+          const sortedChats = [...pinnedChats, ...regularChats];
+
           setChats(sortedChats);
         } else {
           setChats([]);

@@ -3,7 +3,6 @@ import { getDatabase, onDisconnect, onValue, ref, serverTimestamp, set } from "f
 
 export const monitorUserConnection = () => {
   const dbRealtime = getDatabase();
-
   const user = auth.currentUser;
 
   if (user) {
