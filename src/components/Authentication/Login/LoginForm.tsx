@@ -33,7 +33,7 @@ const LoginForm = () => {
         placeholder="Email"
         required
         value={data.email}
-        onChange={handleChange}
+        setValue={handleChange}
         className={`${inputClassName} ${data.email ? "outline-white/55" : ""}`}
         autoComplete="email"
       />
@@ -44,7 +44,7 @@ const LoginForm = () => {
         minLength={6}
         required
         value={data.password}
-        onChange={handleChange}
+        setValue={handleChange}
         className={`${inputClassName} ${data.password ? "outline-white/55" : ""}`}
         autoComplete="new-password"
       />

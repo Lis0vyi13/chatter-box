@@ -18,7 +18,9 @@ const useFetchChats = (data: IChat[] | null, searchValue: string) => {
     };
 
     const fetchData = async () => {
-      if (searchValue !== "") {
+      if (searchValue === "") {
+        setCurrentChats(data || null);
+      } else {
         const chatsByQuery =
           data?.filter((chat) => chat.title.toLowerCase().includes(searchValue.toLowerCase())) ||
           [];
@@ -45,8 +47,6 @@ const useFetchChats = (data: IChat[] | null, searchValue: string) => {
           }, []);
           setCurrentChats(uniqueChats);
         }
-      } else {
-        setCurrentChats(data || null);
       }
     };
 

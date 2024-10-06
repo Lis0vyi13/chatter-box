@@ -1,17 +1,17 @@
 import { Link } from "react-router-dom";
 
-import useUser from "@/hooks/useUser";
+import useFolders from "@/hooks/useFolders";
 import useSidebar from "./useSidebar";
 
+import Loader from "@/ui/Loader";
 import SidebarIcon from "./SidebarIcon";
 
 import { logOutIcon } from "@/constants";
-import Loader from "@/ui/Loader";
 
 const Sidebar = () => {
-  const { icons, handleIconClick, handleLogout } = useSidebar();
+  const folders = useFolders();
+  const { icons, handleIconClick, handleLogout } = useSidebar(folders);
   const [chats, settings] = [icons.slice(0, -2), icons.slice(-2)];
-  const folders = useUser();
 
   return (
     <section className="flex overflow-auto custom-scrollbar px-2 flex-col justify-between gap-4 items-center py-4">

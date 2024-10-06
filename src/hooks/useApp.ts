@@ -2,18 +2,14 @@ import { useEffect } from "react";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "@/firebase/firebaseConfig";
 
+import { createFavoritesChat, createOrUpdateUser, createTestFolder } from "@/services/firebase";
 import { monitorUserConnection } from "@/utils/monitorUserConnection";
 import useActions from "./useActions";
-import {
-  createFavoritesChat,
-  createOrUpdateUser,
-  createTestFolder,
-  getSortedChats,
-} from "@/services/firebase";
+
 import { generateFavoritesChatTemplate } from "@/templates";
 
 export const useApp = () => {
-  const { setUser, setChats, setFolders } = useActions();
+  const { setUser, setFolders } = useActions();
 
   useEffect(() => {
     const handleUserAuth = async (user: User | null) => {
@@ -26,14 +22,9 @@ export const useApp = () => {
 
         const favoritesChat = generateFavoritesChatTemplate(user.uid);
         await createFavoritesChat(favoritesChat, user.uid);
-
-        const foldersData = await createTestFolder(user);
-
-        const chats = await getSortedChats(user.uid);
+        await createTestFolder(user);
 
         setUser(userData);
-        if (foldersData) setFolders(foldersData.data);
-        if (chats) setChats(chats);
       } catch (error) {
         console.error("Error handling user authentication:", error);
       }
@@ -42,5 +33,5 @@ export const useApp = () => {
     const unsubscribe = onAuthStateChanged(auth, handleUserAuth);
 
     return () => unsubscribe();
-  }, [setUser, setChats, setFolders]);
+  }, [setUser, setFolders]);
 };

@@ -2,9 +2,9 @@ import { Droppable, Draggable } from "@hello-pangea/dnd";
 
 import ChatListItem from "./ChatListItem";
 import Loader from "@/ui/Loader";
+import { ChatListItemMenu } from "@/ui/Menus/ChatListItemMenu";
 
 import { IChat } from "@/types/chat";
-import { ChatListItemMenu } from "@/ui/Menus/ChatListItemMenu";
 
 interface ChatListItemsProps {
   chats: IChat[] | null;
@@ -19,7 +19,7 @@ const ChatListItems = ({ chats, activeChat, setActiveChat, createNewChat }: Chat
       <ul className="list flex flex-col" ref={provided.innerRef} {...provided.droppableProps}>
         {chats ? (
           chats.map((chat, index) => (
-            <ChatListItemMenu isPin={chat.isPin} key={chat.id}>
+            <ChatListItemMenu data={chat} key={chat.id}>
               {chat.isPin ? (
                 <Draggable key={chat.id} draggableId={chat.id} index={index}>
                   {(provided) => (

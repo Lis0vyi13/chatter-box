@@ -1,78 +1,94 @@
-import { ReactNode } from "react";
+import { ReactNode, useMemo } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+
+import useUser from "@/hooks/useUser";
+
 import {
   ContextMenu,
-  ContextMenuCheckboxItem,
   ContextMenuContent,
   ContextMenuItem,
-  ContextMenuLabel,
-  ContextMenuRadioGroup,
-  ContextMenuRadioItem,
   ContextMenuSeparator,
-  ContextMenuShortcut,
-  ContextMenuSub,
-  ContextMenuSubContent,
-  ContextMenuSubTrigger,
   ContextMenuTrigger,
 } from "../shadcn/context-menu";
+
+import { doTooglePinChat, openChat } from "./MenuActions";
 
 import { FaRegFolderOpen } from "react-icons/fa";
 import { TiPin } from "react-icons/ti";
 import { RiInboxUnarchiveLine } from "react-icons/ri";
-import { MdOutlineCleaningServices } from "react-icons/md";
-import { MdDeleteOutline } from "react-icons/md";
+import { MdOutlineCleaningServices, MdDeleteOutline } from "react-icons/md";
+
+import { IChat } from "@/types/chat";
 
 interface IChatListItemMenu {
-  children: ReactNode;
-  isPin: boolean;
+  data: IChat;
+  children?: ReactNode;
 }
 
-export function ChatListItemMenu({ isPin, children }: IChatListItemMenu) {
+export function ChatListItemMenu({ data, children }: IChatListItemMenu) {
   const labelWithIconClassName = "absolute left-[2rem] top-1/2 -translate-y-1/2";
+  const user = useUser();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const menuItems = useMemo(
+    () => [
+      {
+        icon: <FaRegFolderOpen className="text-[15px]" />,
+        label: "Open",
+        separator: true,
+        action: () => openChat(location, navigate, data.id),
+      },
+      {
+        icon: <TiPin className="text-[16px]" />,
+        label: data.isPin ? "Unpin" : "Pin",
+        separator: false,
+        action: async () => {
+          if (user) {
+            await doTooglePinChat(user.uid, data.id);
+          }
+        },
+      },
+      {
+        icon: <RiInboxUnarchiveLine className="text-[16px]" />,
+        label: "Archive",
+        separator: true,
+        action: () => {},
+      },
+      {
+        icon: <MdOutlineCleaningServices className="text-[16px]" />,
+        label: "Clear history",
+        separator: false,
+        action: () => {},
+      },
+      {
+        icon: <MdDeleteOutline className="text-[16px] text-[#ee242b]" />,
+        label: "Delete chat",
+        isDanger: true,
+        separator: false,
+        action: () => {},
+      },
+    ],
+    [data, data.id],
+  );
+
   return (
     <ContextMenu>
       <ContextMenuTrigger>{children}</ContextMenuTrigger>
       <ContextMenuContent className="w-56">
-        <ContextMenuItem>
-          <div className="flex items-center">
-            <FaRegFolderOpen className="text-[15px]" />
-            <p className={labelWithIconClassName}>Open</p>
+        {menuItems.map((item, index) => (
+          <div key={index}>
+            <ContextMenuItem onClick={item.action}>
+              <div className="flex items-center">
+                {item.icon}
+                <p className={`${labelWithIconClassName} ${item.isDanger ? "text-[#ee242b]" : ""}`}>
+                  {item.label}
+                </p>
+              </div>
+            </ContextMenuItem>
+            {item.separator && <ContextMenuSeparator />}
           </div>
-        </ContextMenuItem>
-        <ContextMenuSeparator />
-        <ContextMenuItem>
-          <div className="flex items-center">
-            {isPin ? (
-              <>
-                <TiPin className="text-[16px]" />
-                <p className={labelWithIconClassName}>Unpin</p>
-              </>
-            ) : (
-              <>
-                <TiPin className="text-[16px]" />
-                <p className={labelWithIconClassName}>Pin</p>
-              </>
-            )}
-          </div>
-        </ContextMenuItem>
-        <ContextMenuItem>
-          <div className="flex items-center">
-            <RiInboxUnarchiveLine className="text-[16px]" />
-            <p className={labelWithIconClassName}>Archive</p>
-          </div>
-        </ContextMenuItem>
-        <ContextMenuSeparator />
-        <ContextMenuItem>
-          <div className="flex items-center">
-            <MdOutlineCleaningServices className="text-[16px]" />
-            <p className={labelWithIconClassName}>Clear history</p>
-          </div>
-        </ContextMenuItem>
-        <ContextMenuItem>
-          <div className="flex items-center">
-            <MdDeleteOutline className="text-[16px] text-[#ee242b]" />
-            <p className={`${labelWithIconClassName} text-[#ee242b]`}>Delete chat</p>
-          </div>
-        </ContextMenuItem>
+        ))}
       </ContextMenuContent>
     </ContextMenu>
   );

@@ -1,12 +1,16 @@
-import { InputHTMLAttributes, useEffect, forwardRef, useState } from "react";
+import { InputHTMLAttributes, useEffect, forwardRef, useState, ChangeEvent } from "react";
+
 import Icon from "./Icon";
-import { IoCloseSharp } from "react-icons/io5";
+import Delete from "./Delete";
+
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;
   value: string;
-  setValue: React.Dispatch<React.SetStateAction<string>>;
+  setValue:
+    | React.Dispatch<React.SetStateAction<string>>
+    | ((e: ChangeEvent<HTMLInputElement>) => void);
   setDebouncedValue?: React.Dispatch<React.SetStateAction<string>>;
   noDeleteIcon?: boolean;
   type?: "text" | "email" | "password" | "number" | "search" | "tel" | "url";
@@ -30,12 +34,26 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       }
     }, [value]);
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setValue(e.target.value);
+    const isChangeEventHandler = (
+      value: typeof setValue,
+    ): value is (e: ChangeEvent<HTMLInputElement>) => void => {
+      return typeof value === "function" && value.length > 0;
+    };
+
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+      if (isChangeEventHandler(setValue)) {
+        setValue(e);
+      } else {
+        setValue(e.target.value);
+      }
     };
 
     const handleClearInput = () => {
-      setValue("");
+      if (isChangeEventHandler(setValue)) {
+        setValue({} as ChangeEvent<HTMLInputElement>);
+      } else {
+        setValue("");
+      }
       if (setDebouncedValue) {
         setDebouncedValue("");
       }
@@ -57,17 +75,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           className={`relative focus:shadow-lg text-dark placeholder:text-dark placeholder:text-opacity-60 pr-4 py-2 font-[400] rounded-xl outline-none w-full transition duration-300 ${className}`}
           {...props}
         />
-        {value && !noDeleteIcon && (
-          <button
-            type="button"
-            onClick={handleClearInput}
-            className="absolute top-1/2 right-2 -translate-y-1/2 text-[16px] text-dark rounded-full leading-[0.7]"
-          >
-            <Icon>
-              <IoCloseSharp />
-            </Icon>
-          </button>
-        )}
+        {value && !noDeleteIcon && <Delete handler={handleClearInput} position="center-right" />}
         {type === "password" && (
           <button
             type="button"

@@ -30,7 +30,7 @@ const CreatePasswordForm = () => {
         placeholder="Username"
         required
         value={data.username}
-        onChange={handleChange}
+        setValue={handleChange}
         className={`${inputClassName} ${data.username ? "outline-white/55" : ""}`}
         autoComplete="name"
       />
@@ -41,7 +41,7 @@ const CreatePasswordForm = () => {
         minLength={6}
         required
         value={data.password}
-        onChange={handleChange}
+        setValue={handleChange}
         className={`${inputClassName} ${data.password ? "outline-white/55" : ""}`}
         autoComplete="new-password"
       />

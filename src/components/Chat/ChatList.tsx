@@ -94,7 +94,7 @@ const ChatList = ({ data }: { data: IChat[] | null }) => {
   };
 
   return (
-    <section className="relative user-list flex flex-col custom-scrollbar h-full">
+    <section className="chat-list relative user-list flex flex-col custom-scrollbar h-full">
       <SearchInput className="py-[10px]" {...searchInputProps} />
       <div className="mt-2 transition-all -ml-2 overflow-auto custom-scrollbar chat-scrollbar">
         <DragDropContext onDragEnd={onDragEnd}>

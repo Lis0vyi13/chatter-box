@@ -30,10 +30,7 @@ const ChatPage = () => {
 
   return (
     <div className="chat-page overflow-hidden flex flex-1">
-      <div className={`chat-block ${id ? "w-4/5" : "w-full"}`}>
-        {/* Adjust width based on presence of `id` */}
-        <ChatBlock id={id} />
-      </div>
+      <ChatBlock id={id} />
     </div>
   );
 };

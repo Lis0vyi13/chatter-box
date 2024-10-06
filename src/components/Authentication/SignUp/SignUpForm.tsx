@@ -32,7 +32,7 @@ const SignUpForm = () => {
         placeholder="Username"
         required
         value={data.username}
-        onChange={handleChange}
+        setValue={handleChange}
         className={`${inputClassName} ${data.username ? "outline-white/55" : ""}`}
         autoComplete="name"
       />
@@ -42,7 +42,7 @@ const SignUpForm = () => {
         placeholder="Email"
         required
         value={data.email}
-        onChange={handleChange}
+        setValue={handleChange}
         className={`${inputClassName} ${data.email ? "outline-white/55" : ""}`}
         autoComplete="email"
       />
@@ -53,7 +53,7 @@ const SignUpForm = () => {
         required
         minLength={6}
         value={data.password}
-        onChange={handleChange}
+        setValue={handleChange}
         className={`${inputClassName} ${data.password ? "outline-white/55" : ""}`}
         autoComplete="new-password"
       />

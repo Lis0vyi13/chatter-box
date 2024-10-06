@@ -25,7 +25,7 @@ export const createOrUpdateUser = async (user: User) => {
     await updateDoc(userDocRef, {
       email: userData.email,
       displayName: userData.displayName,
-      searchableTokens: user.displayName?.toLowerCase().split(" ") || [],
+      // searchableTokens: user.displayName?.toLowerCase().split(" ") || [],
       photoUrl: userData.photoUrl,
       emailVerified: userData.emailVerified,
     });
@@ -128,5 +128,31 @@ export const searchByDisplayName = async (searchTerm: string): Promise<UserData[
   } catch (error) {
     console.error("Error searching users:", error);
     return [];
+  }
+};
+
+export const togglePinChat = async (uid: string, chatId: string): Promise<void> => {
+  try {
+    const chatDocRef = doc(db, "chats", uid);
+
+    const chatDocSnap = await getDoc(chatDocRef);
+
+    if (!chatDocSnap.exists()) {
+      console.error("Chat document does not exist.");
+      return;
+    }
+
+    const chatData = chatDocSnap.data();
+    const chats = chatData?.chats || [];
+
+    const updatedChats = chats.map((chat: any) =>
+      chat.id === chatId ? { ...chat, isPin: !chat.isPin } : chat,
+    );
+
+    await updateDoc(chatDocRef, { chats: updatedChats });
+
+    console.log(`Chat was updated successfully.`);
+  } catch (error) {
+    console.error("Error toggling chat pin state:", error);
   }
 };
