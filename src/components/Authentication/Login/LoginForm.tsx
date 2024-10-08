@@ -9,7 +9,7 @@ import Button from "@/ui/Button";
 import { FaArrowRightLong } from "react-icons/fa6";
 
 const LoginForm = () => {
-  const { data, handleChange, handleSubmit } = useLoginForm();
+  const { email, setEmail, password, setPassword, handleSubmit } = useLoginForm();
   const submitButtonRef = useRef<HTMLButtonElement>(null);
 
   const inputClassName =
@@ -32,9 +32,10 @@ const LoginForm = () => {
         type="email"
         placeholder="Email"
         required
-        value={data.email}
-        setValue={handleChange}
-        className={`${inputClassName} ${data.email ? "outline-white/55" : ""}`}
+        isDark
+        value={email}
+        setValue={setEmail}
+        className={`${inputClassName} ${email ? "outline-white/55" : ""}`}
         autoComplete="email"
       />
       <Input
@@ -43,9 +44,9 @@ const LoginForm = () => {
         placeholder="Password"
         minLength={6}
         required
-        value={data.password}
-        setValue={handleChange}
-        className={`${inputClassName} ${data.password ? "outline-white/55" : ""}`}
+        value={password}
+        setValue={setPassword}
+        className={`${inputClassName} ${password ? "outline-white/55" : ""}`}
         autoComplete="new-password"
       />
       <Button

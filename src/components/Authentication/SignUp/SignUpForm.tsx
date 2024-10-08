@@ -9,7 +9,17 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import useSignUpForm from "./useSignUpForm";
 
 const SignUpForm = () => {
-  const { data, isSubmitted, progressValue, handleChange, handleSubmit } = useSignUpForm();
+  const {
+    username,
+    setUsername,
+    email,
+    setEmail,
+    password,
+    setPassword,
+    isSubmitted,
+    progressValue,
+    handleSubmit,
+  } = useSignUpForm();
   const submitButtonRef = useRef<HTMLButtonElement>(null);
 
   const inputClassName =
@@ -31,9 +41,10 @@ const SignUpForm = () => {
         name="username"
         placeholder="Username"
         required
-        value={data.username}
-        setValue={handleChange}
-        className={`${inputClassName} ${data.username ? "outline-white/55" : ""}`}
+        isDark
+        value={username}
+        setValue={setUsername}
+        className={`${inputClassName} ${username ? "outline-white/55" : ""}`}
         autoComplete="name"
       />
       <Input
@@ -41,9 +52,10 @@ const SignUpForm = () => {
         type="email"
         placeholder="Email"
         required
-        value={data.email}
-        setValue={handleChange}
-        className={`${inputClassName} ${data.email ? "outline-white/55" : ""}`}
+        isDark
+        value={email}
+        setValue={setEmail}
+        className={`${inputClassName} ${email ? "outline-white/55" : ""}`}
         autoComplete="email"
       />
       <Input
@@ -52,9 +64,9 @@ const SignUpForm = () => {
         placeholder="Password"
         required
         minLength={6}
-        value={data.password}
-        setValue={handleChange}
-        className={`${inputClassName} ${data.password ? "outline-white/55" : ""}`}
+        value={password}
+        setValue={setPassword}
+        className={`${inputClassName} ${password ? "outline-white/55" : ""}`}
         autoComplete="new-password"
       />
       <Button

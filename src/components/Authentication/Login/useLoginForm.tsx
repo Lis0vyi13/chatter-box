@@ -1,28 +1,16 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { FormEvent, useState } from "react";
 import { doSignInWithEmailAndPassword } from "@/firebase/signIn";
 import { toast } from "sonner";
 
-interface ILoginForm {
-  email: string;
-  password: string;
-}
-
 const useLoginForm = () => {
-  const [data, setData] = useState<ILoginForm>({
-    email: "",
-    password: "",
-  });
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setData((prevData) => ({ ...prevData, [name]: value }));
-  };
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
-      const user = await doSignInWithEmailAndPassword(data.email, data.password);
+      const user = await doSignInWithEmailAndPassword(email, password);
       if (user) {
         if (user.emailVerified) {
           toast.success("You have successfully signed in!");
@@ -34,7 +22,7 @@ const useLoginForm = () => {
       toast.error("An unexpected error occurred during sign-in.");
     }
   };
-  return { data, handleChange, handleSubmit };
+  return { email, setEmail, password, setPassword, handleSubmit };
 };
 
 export default useLoginForm;

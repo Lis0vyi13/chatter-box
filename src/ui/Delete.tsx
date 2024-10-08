@@ -4,6 +4,7 @@ import { IoCloseSharp } from "react-icons/io5";
 
 interface IDelete {
   handler: () => void;
+  isDark?: boolean;
   position?:
     | "top-left"
     | "top-right"
@@ -25,18 +26,19 @@ const positionStyles: { [key: string]: string } = {
   "center-right": "top-1/2 right-2 -translate-y-1/2",
 };
 
-const Delete = ({ handler, position = "top-right", className = "" }: IDelete) => {
+const Delete = ({ handler, isDark, position = "top-right", className = "" }: IDelete) => {
   return (
     <button
       type="button"
       onClick={handler}
       className={`
         absolute ${positionStyles[position]} 
-        text-[16px] text-dark rounded-full leading-[0.7]
+        text-[16px] rounded-full leading-[0.7]
         ${className}
+        ${isDark ? "text-white" : "text-dark"}
       `}
     >
-      <Icon>
+      <Icon isDark={isDark}>
         <IoCloseSharp />
       </Icon>
     </button>

@@ -16,7 +16,7 @@ import Message from "./Message";
 const messages: IMessage[] = [
   {
     id: "1",
-    uid: "kVwOpcLsCkQ0TzVu8WobA3UcajZ2",
+    uid: "SnDhQeG8W7W8ZYIqUyJdBC1QBGq2",
     text: "Jaden, my congratulations! I will be glad to work with you on a new project 😉",
     reactions: [],
   },

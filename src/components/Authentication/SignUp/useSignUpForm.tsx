@@ -1,24 +1,12 @@
 import doCreateUserWithEmailAndPassword from "@/firebase/auth";
-import { ChangeEvent, FormEvent, useState } from "react";
-
-interface ISignUpForm {
-  username: string;
-  email: string;
-  password: string;
-}
+import { FormEvent, useState } from "react";
 
 const useSignUpForm = () => {
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [progressValue, setProgressValue] = useState<number>(0);
-  const [data, setData] = useState<ISignUpForm>({
-    username: "",
-    email: "",
-    password: "",
-  });
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setData((prevData) => ({ ...prevData, [name]: value }));
-  };
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -26,9 +14,9 @@ const useSignUpForm = () => {
     try {
       setIsSubmitted(true);
       await doCreateUserWithEmailAndPassword(
-        data.email,
-        data.password,
-        data.username,
+        email,
+        password,
+        username,
         setProgressValue,
         setIsSubmitted,
       );
@@ -42,7 +30,17 @@ const useSignUpForm = () => {
     }
   };
 
-  return { data, isSubmitted, progressValue, handleChange, handleSubmit };
+  return {
+    username,
+    setUsername,
+    email,
+    setEmail,
+    password,
+    setPassword,
+    isSubmitted,
+    progressValue,
+    handleSubmit,
+  };
 };
 
 export default useSignUpForm;

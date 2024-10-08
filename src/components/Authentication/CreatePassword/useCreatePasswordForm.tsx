@@ -1,25 +1,16 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { FormEvent, useState } from "react";
 import { signUpWithGoogleAndEmail } from "@/firebase/google/googleEmailAuth";
 
-interface ICreatePasswordForm {
-  username: string;
-  password: string;
-}
-
 const useCreatePasswordForm = () => {
-  const [data, setData] = useState<ICreatePasswordForm>({ username: "", password: "" });
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setData((prevData) => ({ ...prevData, [name]: value }));
-  };
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await signUpWithGoogleAndEmail(data);
+    await signUpWithGoogleAndEmail({ username, password });
   };
 
-  return { data, handleChange, handleSubmit };
+  return { username, setUsername, password, setPassword, handleSubmit };
 };
 
 export default useCreatePasswordForm;

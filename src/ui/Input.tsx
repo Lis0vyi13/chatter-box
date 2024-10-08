@@ -8,17 +8,25 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;
   value: string;
-  setValue:
-    | React.Dispatch<React.SetStateAction<string>>
-    | ((e: ChangeEvent<HTMLInputElement>) => void);
+  setValue: React.Dispatch<React.SetStateAction<string>>;
   setDebouncedValue?: React.Dispatch<React.SetStateAction<string>>;
   noDeleteIcon?: boolean;
+  isDark?: boolean;
   type?: "text" | "email" | "password" | "number" | "search" | "tel" | "url";
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
   (
-    { className, value, setValue, setDebouncedValue, noDeleteIcon, type = "text", ...props },
+    {
+      className,
+      value,
+      setValue,
+      setDebouncedValue,
+      isDark,
+      noDeleteIcon,
+      type = "text",
+      ...props
+    },
     ref,
   ) => {
     const [passwordHidden, setPasswordHidden] = useState<boolean>(true);
@@ -34,26 +42,13 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       }
     }, [value]);
 
-    const isChangeEventHandler = (
-      value: typeof setValue,
-    ): value is (e: ChangeEvent<HTMLInputElement>) => void => {
-      return typeof value === "function" && value.length > 0;
-    };
-
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-      if (isChangeEventHandler(setValue)) {
-        setValue(e);
-      } else {
-        setValue(e.target.value);
-      }
+      setValue(e.target.value);
     };
 
     const handleClearInput = () => {
-      if (isChangeEventHandler(setValue)) {
-        setValue({} as ChangeEvent<HTMLInputElement>);
-      } else {
-        setValue("");
-      }
+      setValue("");
+
       if (setDebouncedValue) {
         setDebouncedValue("");
       }
@@ -75,7 +70,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           className={`relative focus:shadow-lg text-dark placeholder:text-dark placeholder:text-opacity-60 pr-4 py-2 font-[400] rounded-xl outline-none w-full transition duration-300 ${className}`}
           {...props}
         />
-        {value && !noDeleteIcon && <Delete handler={handleClearInput} position="center-right" />}
+        {value && !noDeleteIcon && (
+          <Delete isDark={isDark} handler={handleClearInput} position="center-right" />
+        )}
         {type === "password" && (
           <button
             type="button"

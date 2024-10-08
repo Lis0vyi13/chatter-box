@@ -9,7 +9,7 @@ import { FaArrowRightLong } from "react-icons/fa6";
 
 const CreatePasswordForm = () => {
   const submitButtonRef = useRef<HTMLButtonElement>(null);
-  const { data, handleChange, handleSubmit } = useCreatePasswordForm();
+  const { username, setUsername, password, setPassword, handleSubmit } = useCreatePasswordForm();
   const inputClassName =
     "bg-dark pl-3 py-3 text-white text-[12px] placeholder:text-[12px] placeholder:text-white placeholder:text-opacity-30 outline outline-gray/45 focus:outline-white/55";
 
@@ -29,9 +29,10 @@ const CreatePasswordForm = () => {
         name="username"
         placeholder="Username"
         required
-        value={data.username}
-        setValue={handleChange}
-        className={`${inputClassName} ${data.username ? "outline-white/55" : ""}`}
+        value={username}
+        isDark
+        setValue={setUsername}
+        className={`${inputClassName} ${username ? "outline-white/55" : ""}`}
         autoComplete="name"
       />
       <Input
@@ -40,9 +41,9 @@ const CreatePasswordForm = () => {
         placeholder="Password"
         minLength={6}
         required
-        value={data.password}
-        setValue={handleChange}
-        className={`${inputClassName} ${data.password ? "outline-white/55" : ""}`}
+        value={password}
+        setValue={setPassword}
+        className={`${inputClassName} ${password ? "outline-white/55" : ""}`}
         autoComplete="new-password"
       />
       <Button
